@@ -47,7 +47,7 @@ For time (as we might have year data depending on the completeness of the data) 
 
 One alternate for our design is multiple bar charts, that could be stacked by subject, grouped by subject or stacked by state and grouped by state (this requires interaction) for the map. We could also do something similar to the soccer statistics where it lists out each state as a row and column as data about that states education, an influencing attribute (household income, etc) and have a graph representation. Where the rows could be sorted by different columns. However, I find this to be too simple and would need something extra to make it special in my opinion. The final idea we could use to replace is a symbol map. Just have our barcharts or whatever data representation we choose overlayed on a map which shows both the information and the location. Then if a user selects that state, we could show a scaled version of it, as the symbols will probably be fairly small considering the entire US needs to be shown. This is a visual very simple to the one we are planning on using. We are not completely convinced this could show the data better than a heat map, or something similar to that. 
 
-add sketches here.
+See the pdf for sketeches of the visualization ideas [here](Prototype-Images.pdf). 
 
 ### Must-Have Features
 
