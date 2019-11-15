@@ -26,10 +26,15 @@ There are multiple benefits that could come from this work. The most obvious is 
 Our data will come from a few sources. Namely data providing test scores of students for different states. Data providing financial information of schools by states. And data providing financial information of households.  
 
 
-
+// good reading and math scores decent scienc scores for 2015, 11, 09.. for grade 8
 https://www.nationsreportcard.gov/data_tools.aspx  
+// has not state information or year of the exams
 https://www.kaggle.com/spscientist/students-performance-in-exams  
+// good stuff has a few csv files, the same naep scores from abouv, and finacial spreadsheets for schools spending.
+// we also have enrolement by state by grade by year if needed
 https://www.kaggle.com/noriuk/us-education-datasets-unification-project  
+// This actually explains the public school revenue and expenditures better and shows some
+// visualizations for them
 https://www.kaggle.com/kabure/eda-us-education-finances  
 https://www.kaggle.com/goldenoakresearch/us-household-income-stats-geo-locations  
 
