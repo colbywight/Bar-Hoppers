@@ -22,11 +22,11 @@ class MapChart {
     this.legendSvg = legend.append("svg")
       .attr("width",this.svgWidth)
       .attr("height",legendHeight)
-      .attr("transform", "translate(" + this.margin.left + ",0)")
+      .attr("transform", "translate(" + this.margin.left + ",0)");
     this.svg = divTiles.append("svg")
       .attr("width",this.svgWidth)
       .attr("height",this.svgHeight)
-      .attr("transform", "translate(" + this.margin.left + ",0)")
+      .attr("transform", "translate(" + this.margin.left + ",0)");
 
     this.tooltip = tooltip;
   };
