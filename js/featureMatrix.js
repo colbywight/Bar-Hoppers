@@ -1,6 +1,6 @@
 
 /** Class implementing the tileChart. */
-class featureMatrix {
+class FeatureMatrix {
 
   /**
    * Initializes the svg elements required to lay the tiles
@@ -8,27 +8,27 @@ class featureMatrix {
    */
   constructor(tooltip){
 
-    let divTiles = d3.select("#tiles").classed("content", true);
+    let matrix = d3.select("#matrix").classed("content", true);
     this.margin = {top: 30, right: 20, bottom: 30, left: 50};
     //Gets access to the div element created for this chart and legend element from HTML
-    let svgBounds = divTiles.node().getBoundingClientRect();
+    let svgBounds = matrix.node().getBoundingClientRect();
     this.svgWidth = svgBounds.width - this.margin.left - this.margin.right;
     this.svgHeight = this.svgWidth/2 + 30;
     let legendHeight = 150;
     //add the svg to the div
-    let legend = d3.select("#legend").classed("content",true);
+    // let legend = d3.select("#legend").classed("content",true);
 
     //creates svg elements within the div
-    this.legendSvg = legend.append("svg")
-        .attr("width",this.svgWidth)
-        .attr("height",legendHeight)
-        .attr("transform", "translate(" + this.margin.left + ",0)");
-    this.svg = divTiles.append("svg")
+    // this.legendSvg = legend.append("svg")
+    //     .attr("width",this.svgWidth)
+    //     .attr("height",legendHeight)
+    //     .attr("transform", "translate(" + this.margin.left + ",0)");
+    this.svg = matrix.append("svg")
         .attr("width",this.svgWidth)
         .attr("height",this.svgHeight)
         .attr("transform", "translate(" + this.margin.left + ",0)");
 
-    this.tooltip = tooltip;
+    // this.tooltip = tooltip;
   };
 
   /**

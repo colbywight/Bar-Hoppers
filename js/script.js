@@ -2,7 +2,7 @@
 //
 // let votePercentageChart = new PerformanceMap(tooltip);
 //
-// let tileChart = new MapChart(tooltip);
+let featMatrix = new FeatureMatrix();
 //
 // let shiftChart = new SelectionChart();
 //
