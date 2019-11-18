@@ -7,6 +7,7 @@
 // let shiftChart = new SelectionChart();
 //
 // let electoralVoteChart = new FundingMap(shiftChart);
+let mapChart = new MapChart();
 
 
 // Load the data corresponding to all the election years.
