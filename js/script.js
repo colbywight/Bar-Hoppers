@@ -22,6 +22,7 @@ let mapChart = new MapChart();
 
 d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
   console.log(stateScores);
+  featMatrix.update();
   // let yearChart = new MainMenu(electoralVoteChart, tileChart,
   //     votePercentageChart, electionWinners);
   // yearChart.update();

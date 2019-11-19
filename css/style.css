@@ -155,4 +155,16 @@ h3{
     font-size: 32px;
 }
 
+#xAxis path,
+#yAxis path {
+    fill: none;
+    stroke: black;
+}
+
+#xAxis text,
+#yAxis text {
+    font-size: 14px;
+
+}
+
 

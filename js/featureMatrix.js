@@ -27,7 +27,12 @@ class FeatureMatrix {
         .attr("width",this.svgWidth)
         .attr("height",this.svgHeight)
         .attr("transform", "translate(" + this.margin.left + ",0)");
-
+    this.svg.append('g')
+        .attr("id", "xAxis");
+      this.svg.append('g')
+          .attr("id", "yAxis");
+      this.svg.append('g')
+          .attr("id", "tiles");
     // this.tooltip = tooltip;
   };
 
@@ -36,17 +41,17 @@ class FeatureMatrix {
    *
    * @param party an ID for the party that is being referred to.
    */
-  chooseClass (party) {
-    if (party == "R"){
-      return "republican";
-    }
-    else if (party== "D"){
-      return "democrat";
-    }
-    else if (party == "I"){
-      return "independent";
-    }
-  }
+  // chooseClass (party) {
+  //   if (party == "R"){
+  //     return "republican";
+  //   }
+  //   else if (party== "D"){
+  //     return "democrat";
+  //   }
+  //   else if (party == "I"){
+  //     return "independent";
+  //   }
+  // }
 
   /**
    * Renders the HTML content for tool tip
@@ -54,14 +59,14 @@ class FeatureMatrix {
    * @param tooltip_data information that needs to be populated in the tool tip
    * @return text HTML content for toop tip
    */
-  tooltip_render (tooltip_data) {
-    let text = "<ul>";
-    tooltip_data.result.forEach((row)=>{
-      text += "<li class = " + this.chooseClass(row.party)+ ">" + row.nominee+":\t\t"+row.votecount+"("+row.percentage+"%)" + "</li>"
-    });
-
-    return text;
-  }
+  // tooltip_render (tooltip_data) {
+  //   let text = "<ul>";
+  //   tooltip_data.result.forEach((row)=>{
+  //     text += "<li class = " + this.chooseClass(row.party)+ ">" + row.nominee+":\t\t"+row.votecount+"("+row.percentage+"%)" + "</li>"
+  //   });
+  //
+  //   return text;
+  // }
 
   /**
    * Creates tiles and tool tip for each state, legend for encoding the
@@ -71,112 +76,102 @@ class FeatureMatrix {
    * @param colorScale global quantile scale based on the winning
    * margin between republicans and democrats
    */
-  update (electionResult, colorScale){
+  update (){
+    let data = [  {name: "Utah", inventory: 5, unit_price: 45.99},
+        {name: "Alabama", inventory: 10, unit_price: 123.75},
+        {name: "Texas", inventory: 2, unit_price: 399.50}
+        ];
+    let listOfProp = ["inventory", "unit_price"];
 
-    //Calculates the maximum number of rows and columns
-    this.maxColumns = d3.max(electionResult, d => +d.Space) + 1;
-    this.maxRows = d3.max(electionResult, d => +d.Row) + 1;
+      this.svg.attr('transform', `scale(1, -1)`);
 
-    // ******* TODO: PART IV *******
-    //Tansform the legend element to appear in the center and make a call to this element for it to display.
+      var xaxisVal = data.map(function(a) {return a.name});
+      var yaxisVal = listOfProp;
+      let svgWidth = this.svgWidth;
+      let svgHeight = this.svgHeight;
 
-    //Lay rectangles corresponding to each state according to the 'row' and 'column' information in the data.
-    this.svg.selectAll("*").remove();
-    const states = this.svg.selectAll("*").data(electionResult);
+      // let bChartBars = bChartSvg.select('#bars').selectAll('rect').data(xaxisVal);
+      // bChartBars.exit().remove();
 
-    let xscale = d3.scaleLinear()
-        .domain([0, 12 ])
-        .range([20, this.svgWidth-100])
-    ;
-    var legendData = [-60, -50, -40, -30, -20, -10, 10, 20, 30, 40, 50, 60];
-    this.legendSvg.selectAll("rect")
-        .data(legendData)
-        .enter()
-        .append("rect")
-        .attr("x", (d, i) => xscale(i))
-        .attr("y", 10)
-        .attr("height", 10)
-        .attr("width", 70)
-        .style("fill", function(d) {
-          return colorScale(d)
-        })
-    this.legendSvg.selectAll('text').data(legendData)
-        .enter()
-        .append("text")
-        .text(function(d, i) {
-          if(i == 5) {
-            return d + " to 0";
-          }
-          if(i == 6) {
-            return "0 to " + d;
-          }
-          if(i > 6) {
-            return legendData[i-1] + " to " + legendData[i]
-          }
-          return d + " to " + legendData[i+1]
-        })
-        .attr("x", (d, i) => xscale(i)+35)
-        .attr("y", 35)
-        .attr("text-anchor", "middle")
-        .style("font-size", 12)
+      // Create the x and y scales; make
+      // sure to leave room for the axes
+      let xaxisHeight = 35;
+      let yaxisWidth = 40;
+      let xscale = d3.scaleBand()
+          .domain(xaxisVal)
+          .range([yaxisWidth,svgWidth-yaxisWidth])
+          .padding(0.25)
+      ;
+      let height = svgHeight - 55;
+      let yscale = d3.scaleLinear()
+          .domain(yaxisVal)
+          .range([10, height])
+      ;
 
+      // Create colorScale
+      //
+      // Create the axes (hint: use #xAxis and #yAxis)
+      let xaxisSel = this.svg.select('#xAxis');
+      let yaxisSel = this.svg.select('#yAxis');
 
+      let xaxis = d3.axisBottom(xscale)
+          .tickFormat((d,i) => xaxisVal[i])
+      ;
 
-    states
-        .enter()
-        .append("rect")
-        .attr("x", (d, i) => d.Space*60)
-        .attr("y", (d) => d.Row*60)
-        .attr("height", 60)
-        .attr("width", 60)
-        .attr('class', 'tile')
-        .style("fill", function(d) {
-          let iPerc = parseFloat(d.I_Percentage);
-          let dPerc = parseFloat(d.D_Percentage);
-          let rPerc = parseFloat(d.R_Percentage);
-          if((iPerc > dPerc) && (iPerc > rPerc))
-            return '#45AD6A'
-          return colorScale(d.RD_Difference)
-        })
-        .on('mouseover', (d) => {
-          this.tooltip.mouseover(d)
-        })
-        .on('mouseout', (d) => {
-          this.tooltip.mouseout(d)
-        })
-        .on('mousemove', (d) => {
-          this.tooltip.mousemove(d)
-        })
+      let yaxis = d3.axisLeft(yscale)
+          .tickFormat((d,i) => yaxisVal[i])
+      ;
 
+      xaxisSel.attr('transform', `translate(${yaxisWidth}, 45) scale(1, -1)`)
+          .call(xaxis)
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-65)")
+      ;
 
-    //Display the state abbreviation and number of electoral votes on each of these rectangles
-    states
-        .enter()
-        .append("text")
-        .text((d) => d.Abbreviation)
-        .style("text-anchor", "middle")
-        .attr("class", ".tilestext ")
-        .attr("x", (d, i) => d.Space*60 + 30)
-        .attr("y", (d) => d.Row*60 + 25)
-        .attr( "pointer-events", "none")
-    states
-        .enter()
-        .append("text")
-        .text((d) => d.Total_EV)
-        .style("text-anchor", "middle")
-        .attr("class", ".tilestext ")
-        .attr("x", (d, i) => d.Space*60 + 30)
-        .attr("y", (d) => d.Row*60 + 40)
-        .attr( "pointer-events", "none")
-    //Use global color scale to color code the tiles.
+      yaxisSel.attr('transform', `translate(${yaxisWidth + 40}, ${svgHeight-10}) scale(1, -1)`)
+          .transition()
+          .duration(1000)
+          .call(yaxis)
+      ;
 
-    //HINT: Use .tile class to style your tiles;
-    // .tilestext to style the text corresponding to tiles
+      // let colorFunc = function (i) {
+      //     var yVal = yaxisVal[i]/d3.max(yaxisVal);
+      //     return d3.interpolateLab("#45b6fe", "#0e2433")(yVal);
+      // }
 
-    //Call the tool tip on hover over the tiles to display stateName, count of electoral votes
-    //then, vote percentage and number of votes won by each party.
-    //HINT: Use the .republican, .democrat and .independent classes to style your elements.
-
+      // Create the bars (hint: use #bars)
+      // bChartBars
+      //     .enter()
+      //     .append('rect')
+      //     .attr('transform', `translate(${yaxisWidth}, 10)`)
+      //     .attr('x', (d,i) => xscale(d))
+      //     .attr('y', xaxisHeight)
+      //     .attr('width', xscale.bandwidth())
+      //     .attr('class', 'eachbar')
+      //     .merge(bChartBars)
+      //     .on('click', function(d){
+      //         d3.select('#bars').selectAll('rect').style('fill', function(d,i){
+      //             return colorFunc(i);
+      //         }).attr('class', 'eachbar');
+      //         d3.select(this).style('fill', 'maroon').attr('class', 'selected');
+      //         barChart.infoPanel.updateInfo(barChart.allData.find(a => a.year === d));
+      //         barChart.worldMap.updateMap(barChart.allData.find(a => a.year === d));
+      //     })
+      //     .transition()
+      //     .duration(1000)
+      //     .style("fill", function(d,i){
+      //         if(d3.select(this).attr("class") == 'selected'){
+      //             return "maroon";
+      //         }
+      //         return colorFunc(i); //pass i to scale
+      //     })
+      //     .attr('height', function(d, i) {
+      //         return height-yscale(yaxisVal[i]);
+      //     })//(d,i) => height-yscale(yaxisVal[i]))
+      // ;
   };
 
 
