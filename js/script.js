@@ -7,7 +7,7 @@ let featMatrix = new FeatureMatrix();
 // let shiftChart = new SelectionChart();
 //
 // let electoralVoteChart = new FundingMap(shiftChart);
-// let mapChart = new MapChart();
+let mapChart = new MapChart();
 
 
 // Load the data corresponding to all the election years.
@@ -23,7 +23,8 @@ let featMatrix = new FeatureMatrix();
 d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
   console.log(stateScores);
   let mapChart = new MapChart(stateScores);
-  mapChart.update()
+  mapChart.update();
+  featMatrix.update();
   // let yearChart = new MainMenu(electoralVoteChart, tileChart,
   //     votePercentageChart, electionWinners);
   // yearChart.update();
