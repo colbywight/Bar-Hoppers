@@ -83,7 +83,7 @@ class FeatureMatrix {
         ];
     let listOfProp = ["inventory", "unit_price"];
 
-      this.svg.attr('transform', `scale(1, -1)`);
+      // this.svg.attr('transform', `scale(1, -1)`);
 
       var xaxisVal = data.map(function(a) {return a.name});
       var yaxisVal = listOfProp;
@@ -103,9 +103,10 @@ class FeatureMatrix {
           .padding(0.25)
       ;
       let height = svgHeight - 55;
-      let yscale = d3.scaleLinear()
+      let yscale = d3.scaleBand()
           .domain(yaxisVal)
           .range([10, height])
+          .padding(.5)
       ;
 
       // Create colorScale
@@ -122,28 +123,51 @@ class FeatureMatrix {
           .tickFormat((d,i) => yaxisVal[i])
       ;
 
-      xaxisSel.attr('transform', `translate(${yaxisWidth}, 45) scale(1, -1)`)
+      xaxisSel.attr('transform', `translate(${yaxisWidth}, 100) scale(1, -1)`)
           .call(xaxis)
           .selectAll("text")
-          .style("text-anchor", "end")
-          .attr("dx", "-.8em")
-          .attr("dy", ".15em")
-          .attr("transform", "rotate(-65)")
+          .style("text-anchor", "start")
+          .attr("dx", ".8em")
+          .attr("dy", "-.8em")
+          .attr("transform", "rotate(-110) scale(-1, 1)")
+          .style("font-size", 14)
+          .style("fill", "black")
+          .style("stroke-width", 0.6)
       ;
 
       yaxisSel.attr('transform', `translate(${yaxisWidth + 40}, ${svgHeight-10}) scale(1, -1)`)
-          .transition()
-          .duration(1000)
           .call(yaxis)
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("transform", "scale(1, -1)")
       ;
 
-      // let colorFunc = function (i) {
-      //     var yVal = yaxisVal[i]/d3.max(yaxisVal);
-      //     return d3.interpolateLab("#45b6fe", "#0e2433")(yVal);
-      // }
+      let colorFunc = function (i) {
+          // var yVal = yaxisVal[i]/d3.max(yaxisVal);
+          return d3.interpolateLab("#45b6fe", "#0e2433");
+      }
 
-      // Create the bars (hint: use #bars)
-      // bChartBars
+      const tiles = this.svg.select("#tiles");
+      tiles.selectAll('g').data(data)
+      tiles.enter().append('g')
+          .attr("id", function(d, i){
+              return "col" + i.toString()
+          });
+
+    // for(let ind = 0; ind < data.length; ind++) {
+    //     let column = this.svg.select('#col' + ind.toString());
+    //     for(let j = 0; j < listOfProp.length; j++) {
+    //         column.append("rect")
+    //             .attr("x", 400*ind + 200)
+    //             .attr("y", 300*j + 200)
+    //             .attr("height", 200)
+    //             .attr("width", 200)
+    //             .style("fill", function(d) {
+    //                 return "blue";
+    //             });
+    //     }
+    // }
+      // this.svg.select("#tiles")
       //     .enter()
       //     .append('rect')
       //     .attr('transform', `translate(${yaxisWidth}, 10)`)

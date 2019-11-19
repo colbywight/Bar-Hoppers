@@ -163,7 +163,9 @@ h3{
 
 #xAxis text,
 #yAxis text {
-    font-size: 14px;
+    font-size: 24px;
+    fill: #565656;
+    stroke-width: 0.1px;
 
 }
 
