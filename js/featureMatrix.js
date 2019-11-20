@@ -148,9 +148,10 @@ class FeatureMatrix {
       }
 
       const tiles = this.svg.select("#tiles");
-      tiles.selectAll('g').data(data)
-      tiles.enter().append('g')
+      console.log("tiles");
+      tiles.selectAll('g').data(data).enter().append('g')
           .attr("id", function(d, i){
+              console.log(d);
               return "col" + i.toString()
           });
 
