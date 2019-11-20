@@ -83,7 +83,11 @@ class FeatureMatrix {
         ];
     let listOfProp = ["inventory", "unit_price"];
 
-      // this.svg.attr('transform', `scale(1, -1)`);
+      data.sort(function(a, b) {
+          var textA = a.name.toUpperCase();
+          var textB = b.name.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
 
       var xaxisVal = data.map(function(a) {return a.name});
       var yaxisVal = listOfProp;
@@ -97,9 +101,12 @@ class FeatureMatrix {
       // sure to leave room for the axes
       let xaxisHeight = 35;
       let yaxisWidth = 40;
+      let maxrange = this.svgWidth - yaxisWidth;
+      if(data.length < 15)
+          maxrange = this.svgWidth/2;
       let xscale = d3.scaleBand()
           .domain(xaxisVal)
-          .range([yaxisWidth,svgWidth-yaxisWidth])
+          .range([yaxisWidth,maxrange])
           .padding(0.25)
       ;
       let height = svgHeight - 55;
@@ -155,19 +162,24 @@ class FeatureMatrix {
               return "col" + i.toString()
           });
 
-    // for(let ind = 0; ind < data.length; ind++) {
-    //     let column = this.svg.select('#col' + ind.toString());
-    //     for(let j = 0; j < listOfProp.length; j++) {
-    //         column.append("rect")
-    //             .attr("x", 400*ind + 200)
-    //             .attr("y", 300*j + 200)
-    //             .attr("height", 200)
-    //             .attr("width", 200)
-    //             .style("fill", function(d) {
-    //                 return "blue";
-    //             });
-    //     }
-    // }
+    for(let ind = 0; ind < data.length; ind++) {
+        let column = this.svg.select('#col' + ind.toString());
+        column = column.selectAll('rect').data(listOfProp)
+            .enter()
+            .append("rect")
+            .attr("x", function(d, i) {
+                console.log(ind);
+                console.log(xscale(ind))
+                return 100 * ind;
+            })
+            .attr("y", (d, i) => 30*i + 200)
+            .attr("height", 20)
+            .attr("width", 20)
+            .style("fill", function(d) {
+                let getAttrRange = Math.max(data.map(function(a) {return a[d]}));
+                let getCurrAttrVal = data[ind]
+            });
+    }
       // this.svg.select("#tiles")
       //     .enter()
       //     .append('rect')
