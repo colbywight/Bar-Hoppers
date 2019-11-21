@@ -26,7 +26,7 @@ class FeatureMatrix {
     this.svg = matrix.append("svg")
         .attr("width",this.svgWidth)
         .attr("height",this.svgHeight)
-        .attr("transform", "translate(" + this.margin.left + ",0)");
+        // .attr("transform", "translate(0, 0)//(" + this.margin.left + ",0)");
     this.svg.append('g')
         .attr("id", "xAxis");
       this.svg.append('g')
@@ -77,13 +77,21 @@ class FeatureMatrix {
    * margin between republicans and democrats
    */
   update (){
-    let data = [  {name: "Utah", inventory: 5, unit_price: 45.99},
-        {name: "Alabama", inventory: 10, unit_price: 123.75},
-        {name: "Texas", inventory: 2, unit_price: 399.50}
-        ];
-    let listOfProp = ["inventory", "unit_price"];
+    let data = [  {name: "Utah", performance: 5, diversity: 45.99, giftedtalented: 3},
+        {name: "Alabama", performance: 10, diversity: 123.75, giftedtalented: 15},
+        {name: "Texas", performance: 2, diversity: 399.50, giftedtalented: 5},
+        {name: "Mississippi", performance: 7, diversity: 250.50, giftedtalented: 10},
+        {name: "Maine", performance: 7, diversity: 250.50, giftedtalented: 10},
+        {name: "Vermont", performance: 7, diversity: 250.50, giftedtalented: 10},
+        {name: "South Dakota", performance: 7, diversity: 250.50, giftedtalented: 10},
+        {name: "South Carolina", performance: 7, diversity: 250.50, giftedtalented: 10},
+        {name: "Nevada", performance: 7, diversity: 250.50, giftedtalented: 10},
+        {name: "California", performance: 7, diversity: 250.50, giftedtalented: 10},
+        {name: "Oregon", performance: 7, diversity: 250.50, giftedtalented: 10},
+    ];
+    let listOfProp = ["performance", "diversity", "giftedtalented"];
 
-      data.sort(function(a, b) {
+      data = data.sort(function(a, b) {
           var textA = a.name.toUpperCase();
           var textB = b.name.toUpperCase();
           return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
@@ -91,34 +99,36 @@ class FeatureMatrix {
 
       var xaxisVal = data.map(function(a) {return a.name});
       var yaxisVal = listOfProp;
-      let svgWidth = this.svgWidth;
-      let svgHeight = this.svgHeight;
 
-      // let bChartBars = bChartSvg.select('#bars').selectAll('rect').data(xaxisVal);
-      // bChartBars.exit().remove();
-
-      // Create the x and y scales; make
-      // sure to leave room for the axes
-      let xaxisHeight = 35;
+      // Create the x and y scales
       let yaxisWidth = 40;
       let maxrange = this.svgWidth - yaxisWidth;
-      if(data.length < 15)
+      let yaxisRatio = (maxrange/data.length) * listOfProp.length;
+      if(data.length < 10) {
           maxrange = this.svgWidth/2;
+          yaxisRatio = ((maxrange)/data.length) * listOfProp.length;
+      }
       let xscale = d3.scaleBand()
           .domain(xaxisVal)
           .range([yaxisWidth,maxrange])
           .padding(0.25)
       ;
-      let height = svgHeight - 55;
+      let xscalepos = d3.scaleLinear()
+          .domain([0, data.length])
+          .range([yaxisWidth, maxrange])
+      ;
       let yscale = d3.scaleBand()
           .domain(yaxisVal)
-          .range([10, height])
-          .padding(.5)
+          .range([0, yaxisRatio-20])
+          .padding(0.25)
+      ;
+
+      let yscalepos = d3.scaleLinear()
+          .domain([0, listOfProp.length])
+          .range([0, yaxisRatio-20])
       ;
 
       // Create colorScale
-      //
-      // Create the axes (hint: use #xAxis and #yAxis)
       let xaxisSel = this.svg.select('#xAxis');
       let yaxisSel = this.svg.select('#yAxis');
 
@@ -142,16 +152,15 @@ class FeatureMatrix {
           .style("stroke-width", 0.6)
       ;
 
-      yaxisSel.attr('transform', `translate(${yaxisWidth + 40}, ${svgHeight-10}) scale(1, -1)`)
+
+      yaxisSel.attr('transform', `translate(${yaxisWidth + 40}, 100)`)
           .call(yaxis)
           .selectAll("text")
           .style("text-anchor", "end")
-          .attr("transform", "scale(1, -1)")
       ;
 
       let colorFunc = function (i) {
-          // var yVal = yaxisVal[i]/d3.max(yaxisVal);
-          return d3.interpolateLab("#45b6fe", "#0e2433");
+          return d3.interpolateLab("white", "#0e2433")(i);
       }
 
       const tiles = this.svg.select("#tiles");
@@ -167,18 +176,38 @@ class FeatureMatrix {
         column = column.selectAll('rect').data(listOfProp)
             .enter()
             .append("rect")
-            .attr("x", function(d, i) {
-                console.log(ind);
-                console.log(xscale(ind))
-                return 100 * ind;
+            .attr("x", function(d) {
+                return xscalepos(ind) + yaxisWidth + 10;
             })
-            .attr("y", (d, i) => 30*i + 200)
-            .attr("height", 20)
-            .attr("width", 20)
+            .attr("y", function(d, i) {
+                return yscalepos(i) + 110;
+            })
+            .attr("height", (d) => (maxrange/data.length) - 15)
+            .attr("width", (d) => (maxrange/data.length) - 15)
             .style("fill", function(d) {
-                let getAttrRange = Math.max(data.map(function(a) {return a[d]}));
-                let getCurrAttrVal = data[ind]
+                let getAttrRange = data.map(function(a) {return a[d]});
+                let maxVal = Math.max.apply(Math,getAttrRange);
+                let colorRatio = data[ind][d]/maxVal;
+                return colorFunc(colorRatio);
             });
+        let columntext = this.svg.select('#col' + ind.toString());
+        columntext = columntext.selectAll('text').data(listOfProp)
+            .enter()
+            .append("text")
+            .text(function(d) {
+                let getAttrRange = data.map(function(a) {return a[d]});
+                let maxVal = Math.max.apply(Math,getAttrRange);
+                let textstring = Math.floor(data[ind][d]).toString() + '/' + Math.floor(maxVal).toString();
+                return textstring;
+            })
+            .style("text-anchor", "middle")
+            .attr("x", function(d) {
+                return xscalepos(ind) + yaxisWidth + 10 + ((maxrange/data.length) - 15)/2;
+            })
+            .attr("y", function(d, i) {
+                return yscalepos(i) + 110 + ((maxrange/data.length) - 15)/2;
+            })
+            .attr( "pointer-events", "none")
     }
       // this.svg.select("#tiles")
       //     .enter()
