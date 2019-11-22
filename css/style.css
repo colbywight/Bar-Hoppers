@@ -155,20 +155,6 @@ h3{
     font-size: 32px;
 }
 
-#xAxis path,
-#yAxis path {
-    fill: none;
-    stroke: black;
-}
-
-#xAxis text,
-#yAxis text {
-    font-size: 24px;
-    fill: #565656;
-    stroke-width: 0.1px;
-
-}
-
 .stop-left {
     stop-color: #3f51b5;  /* Indigo */
 }
