@@ -63,6 +63,7 @@ class MapChart {
      * @param party an ID for the party that is being referred to.
      */
     drawMap(us){
+        let value = null;
 
         var projection = d3.geoAlbersUsa()
             .translate([300, 200])    // translate to center of screen
@@ -82,7 +83,19 @@ class MapChart {
             .style("fill", 'lightgrey' )
             .on('click', d => {
                 console.log(d.properties.name)
+                const node = this.svg.node();
+                node.value = value = value === d.id ? null : d.id;
+                node.dispatchEvent(new CustomEvent("input"));
+                outline.attr("d", value ? path(d) : null);
         });
+
+        const outline = this.svg.append("path")
+            .attr("fill", "none")
+            .attr("stroke", "black")
+            .attr("stroke-linejoin", "round")
+            .attr("pointer-events", "none");
+
+        return Object.assign(this.svg.node(), {value: null});
 
         ////// was kinda working..
         // let projection = d3.geoAlbersUsa()
