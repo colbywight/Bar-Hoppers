@@ -64,14 +64,26 @@ class MapChart {
      */
     drawMap(us){
         let value = null;
+        let highlightStates = [];
 
-        var projection = d3.geoAlbersUsa()
+        let projection = d3.geoAlbersUsa()
             .translate([300, 200])    // translate to center of screen
             .scale([800]);          // scale things down so see entire US
 
 // Define path generator
-        var path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
+        let path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
             .projection(projection);
+
+        Array.prototype.remove = function() {
+            var what, a = arguments, L = a.length, ax;
+            while (L && this.length) {
+                what = a[--L];
+                while ((ax = this.indexOf(what)) !== -1) {
+                    this.splice(ax, 1);
+                }
+            }
+            return this;
+        };
 
         this.svg.selectAll("path")
             .data(us.features)
@@ -82,20 +94,34 @@ class MapChart {
             .style("stroke-width", "1")
             .style("fill", 'lightgrey' )
             .on('click', d => {
-                console.log(d.properties.name)
-                const node = this.svg.node();
-                node.value = value = value === d.id ? null : d.id;
-                node.dispatchEvent(new CustomEvent("input"));
-                outline.attr("d", value ? path(d) : null);
+                // console.log(d.properties.name);
+                let state = d.properties.name;
+                highlightStates.includes(state) ? highlightStates.remove(state) : highlightStates.push(state);
+                console.log(highlightStates);
+
+                    // d3.selectAll("path").filter(function(d) {
+                    //     // return d.properties.name == cluster
+                    //     return highlightStates.includes(d.properties.name)
+                    //
+                    // // }).style("stroke", "#f00");
+                    // }).style("stroke", "black");
+
+
+                // const node = this.svg.node();
+                // console.log(node.value);
+                // node.value = value = value === d.id ? null : d.id;
+                // console.log(node.value);
+                // node.dispatchEvent(new CustomEvent("input"));
+                // outline.attr("d", value ? path(d) : null);
         });
 
-        const outline = this.svg.append("path")
-            .attr("fill", "none")
-            .attr("stroke", "black")
-            .attr("stroke-linejoin", "round")
-            .attr("pointer-events", "none");
-
-        return Object.assign(this.svg.node(), {value: null});
+        // const outline = this.svg.append("path")
+        //     .attr("fill", "none")
+        //     .attr("stroke", "black")
+        //     .attr("stroke-linejoin", "round")
+        //     .attr("pointer-events", "none");
+        //
+        // return Object.assign(this.svg.node(), {value: null});
 
         ////// was kinda working..
         // let projection = d3.geoAlbersUsa()
