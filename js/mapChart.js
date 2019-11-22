@@ -7,8 +7,9 @@ class MapChart {
      * and to populate the legend.
      */
     // constructor(tooltip){
-    constructor(stateScores) {
+    constructor() {
         console.log('in Map Chart');
+        // this.stateScores = stateScores;
 
         let map = d3.select("#map").classed("content", true);
         this.margin = {top: 30, right: 20, bottom: 30, left: 50};
@@ -27,7 +28,10 @@ class MapChart {
         //     .attr("transform", "translate(" + this.margin.left + ",0)");
         this.svg = map.append("svg")
             .attr("width", this.svgWidth)
-            .attr("height", this.svgHeight)
+            .attr("width", 960)
+            // .attr("height", this.svgHeight)
+            .attr("height", 400)
+            .attr("height", 600)
             .attr("transform", "translate(" + this.margin.left + ",0)");
 
         // let divTiles = d3.select("#tiles").classed("content", true);
@@ -58,53 +62,105 @@ class MapChart {
      *
      * @param party an ID for the party that is being referred to.
      */
-    // chooseClass (party) {
-    //   if (party == "R"){
-    //     return "republican";
-    //   }
-    //   else if (party== "D"){
-    //     return "democrat";
-    //   }
-    //   else if (party == "I"){
-    //     return "independent";
-    //   }
-    // }
+    drawMap(us){
+
+        var projection = d3.geoAlbersUsa()
+            .translate([300, 200])    // translate to center of screen
+            .scale([800]);          // scale things down so see entire US
+
+// Define path generator
+        var path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
+            .projection(projection);
+
+        this.svg.selectAll("path")
+            .data(us.features)
+            .enter()
+            .append("path")
+            .attr("d", path)
+            .style("stroke", "#fff")
+            .style("stroke-width", "1")
+            .style("fill", 'lightgrey' )
+            .on('click', d => {
+                console.log(d.properties.name)
+        });
+
+        ////// was kinda working..
+        // let projection = d3.geoAlbersUsa()
+        // let projection = d3.geoConicConformal().scale(150).translate([400, 350])
+        // let projection = d3.geoAlbers().scale([50])
+        // let path = d3.geoPath(projection)
+        // let value = null;
+        // const g = this.svg.append("g")
+        //     .attr("transform", "translate(0,40)");
+        //
+        // this.svg.append("g")
+        //     .attr("fill", "#ccc")
+        //     .selectAll("path")
+        //     .data(topojson.feature(us, us.objects.states).features)
+        //     .enter().append("path")
+        //     .attr("d", path)
+        //     .on("click", d => {
+        //         console.log(d.id)
+        //         const node = this.svg.node();
+        //         node.value = value = value === d.id ? null : d.id;
+        //         node.dispatchEvent(new CustomEvent("input"));
+        //         outline.attr("d", value ? path(d) : null);
+        //     });
+        //
+        // this.svg.append("path")
+        //     .datum(topojson.mesh(us, us.objects.states, (a, b) => a !== b))
+        //     .attr("fill", "none")
+        //     .attr("stroke", "white")
+        //     .attr("stroke-linejoin", "round")
+        //     .attr("pointer-events", "none")
+        //     .attr("d", path);
+        //
+        // const outline = this.svg.append("path")
+        //     .attr("fill", "none")
+        //     .attr("stroke", "black")
+        //     .attr("stroke-linejoin", "round")
+        //     .attr("pointer-events", "none");
+
+
+    }
 
     update() {
-        console.log('mapChart update called')
+        // let us = d3.json("https://unpkg.com/us-atlas@1/us/10m.json");
+        // console.log(us);
+        // // let  topojson = require("topojson-client@3");
+        // // let d3 = require("d3@5");
+        //
+        // const path = d3.geoPath();
+        // let value = null;
+        //
+        // const g = this.svg.append("g")
+        //     .attr("transform", "translate(0,40)");
+        //
+        // this.svg.append("g")
+        //     .attr("fill", "#ccc")
+        //     .selectAll("path")
+        //     .data(topojson.feature(us, us.objects.states).features)
+        //     .enter().append("path")
+        //     .attr("d", path)
+        //     .on("click", d => {
+        //         const node = svg.node();
+        //         node.value = value = value === d.id ? null : d.id;
+        //         node.dispatchEvent(new CustomEvent("input"));
+        //         outline.attr("d", value ? path(d) : null);
+        //     });
+
+
+        // okay we have the states data with lets get the json data
+        // and add the funding from the states data to the json properties
+        // console.log('update')
+        // d3.json("data/us-states.json", function(json) {
+        //     console.log('json');
+        //
+        //     console.log(json)
+        // });
+
         // alright lets add a map to the svg...
-        // Load in my states data!
-//       d3.csv("stateslived.csv", function(data) {
-//           color.domain([0,1,2,3]); // setting the range of the input data
-//
-// // Load GeoJSON data and merge with states data
-//           d3.json("us-states.json", function(json) {
-//
-// // Loop through each state data value in the .csv file
-//               for (var i = 0; i < data.length; i++) {
-//
-//                   // Grab State Name
-//                   var dataState = data[i].state;
-//
-//                   // Grab data value
-//                   var dataValue = data[i].visited;
-//
-//                   // Find the corresponding state inside the GeoJSON
-//                   for (var j = 0; j < json.features.length; j++)  {
-//                       var jsonState = json.features[j].properties.name;
-//
-//                       if (dataState == jsonState) {
-//
-//                           // Copy the data value into the JSON
-//                           json.features[j].properties.visited = dataValue;
-//
-//                           // Stop looking through the JSON
-//                           break;
-//                       }
-//                   }
-//               }
-//
-//   }
+
 
         /**
          * Renders the HTML content for tool tip
@@ -235,7 +291,5 @@ class MapChart {
         //   //HINT: Use the .republican, .democrat and .independent classes to style your elements.
         //
         // };
-
-
     }
 }

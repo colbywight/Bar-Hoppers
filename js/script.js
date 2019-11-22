@@ -7,7 +7,7 @@ let featMatrix = new FeatureMatrix();
 // let shiftChart = new SelectionChart();
 //
 // let electoralVoteChart = new FundingMap(shiftChart);
-let mapChart = new MapChart();
+// let mapChart = new MapChart();
 
 
 // Load the data corresponding to all the election years.
@@ -19,13 +19,25 @@ let mapChart = new MapChart();
 //                                 votePercentageChart, electionWinners);
 //   yearChart.update();
 // });
+let mapChart = new MapChart();
 
 d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
-  console.log(stateScores);
-  let mapChart = new MapChart(stateScores);
-  mapChart.update();
+  // mapChart.update();
   featMatrix.update();
+
   // let yearChart = new MainMenu(electoralVoteChart, tileChart,
   //     votePercentageChart, electionWinners);
   // yearChart.update();
 });
+
+// https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json
+    d3.json("data/us-states.json")
+        .then(function(us) {
+          console.log(us);
+          mapChart.drawMap(us);
+        });
+// d3.json("https://unpkg.com/us-atlas@1/us/10m.json")
+//     .then(function(us) {
+//       console.log(us);
+//       mapChart.drawMap(us);
+//     });
