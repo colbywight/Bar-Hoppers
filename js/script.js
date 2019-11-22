@@ -3,6 +3,8 @@
 // let votePercentageChart = new PerformanceMap(tooltip);
 //
 let featMatrix = new FeatureMatrix();
+let spAttr = new AttrScatterplot();
+let corrBars = new CorrelationBar();
 //
 // let shiftChart = new SelectionChart();
 //
@@ -23,7 +25,8 @@ let mapChart = new MapChart();
 
 d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
   // mapChart.update();
-  featMatrix.update();
+  corrBars.update();
+  spAttr.update();
 
   // let yearChart = new MainMenu(electoralVoteChart, tileChart,
   //     votePercentageChart, electionWinners);
