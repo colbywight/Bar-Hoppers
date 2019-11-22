@@ -49,20 +49,22 @@ class AttrScatterplot {
         .attr("width", svgWidth)
         .attr("height", svgHeight)
         .append('g')
-        .attr("id", "xAxis")
-        .append('g')
-        .attr("id", "yAxis");
+        .attr("id", "xAxis");
+
 
     for(let ind = 0; ind < selectedAttr.length; ind ++) {
-      let svgAttr = this.selection.select('#sp' + selectedAttr[ind]);
+      let svgAttr = this.selection.select('#sp' + selectedAttr[ind]).selectAll('svg');
+      svgAttr
+          .append('g')
+          .attr("id", "yAxis");
       svgAttr.attr('transform', `scale(1, -1)`);
 
       let xscale = d3.scaleLinear()
           .domain([0, 1])
-          .range([0, svgWidth]);
+          .range([20, svgWidth-20]);
       let yscale = d3.scaleLinear()
           .domain([0, 1])
-          .range([0, svgHeight]);
+          .range([svgHeight-20, 20]);
 
       let xaxisSel = svgAttr.select('#xAxis');
       let yaxisSel = svgAttr.select('#yAxis');
@@ -70,16 +72,41 @@ class AttrScatterplot {
       let xaxis = d3.axisBottom(xscale);
       let yaxis = d3.axisLeft(yscale);
 
-      xaxisSel.attr('transform', `translate(5, 5)`)
+      xaxisSel.attr('transform', `translate(5, 20) scale(1, -1)`)
           .transition()
           .duration(1000)
           .call(xaxis);
       ;
-
-      yaxisSel.attr('transform', `translate(20, 20) scale(1, -1)`)
+      yaxisSel.attr('transform', `translate(25, ${svgHeight}) scale(1, -1)`)
           .transition()
           .duration(1000)
           .call(yaxis);
+
+       let points = svgAttr.append('g').attr("id", "attrbystate");
+       points.selectAll('circle').data(data)
+           .enter()
+           .append("circle")
+           .attr('cx', function(d) {
+             let attr = selectedAttr[ind];
+             let getAttrRange = data.map(function(a) {return a[attr]});
+             let maxVal = Math.max.apply(Math,getAttrRange);
+             let posRatio = d[attr]/maxVal;
+             return xscale(posRatio) + 5;
+           })
+           .attr('cy', function(d) {
+             let getAttrRange = data.map(function(a) {return a['performance']});
+             let maxVal = Math.max.apply(Math,getAttrRange);
+             let posRatio = d['performance']/maxVal;
+             return yscale(posRatio) + 30;
+           })
+           .attr('r', 5)
+           .style('fill', function(d) {
+             if(d.name == 'Utah')
+               return 'blue'
+             return 'black'
+           })
+
+
     }
 
   };
