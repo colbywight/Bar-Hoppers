@@ -38,7 +38,7 @@ class CorrelationBar {
     let highlightedAttr = ['performance', 'diversity', 'giftedtalented'];
 
     // Create the svg:defs element and the main gradient definition.
-    var colors = [ 'red', 'pink', 'white', 'light blue', 'blue' ];
+      let colors = ["#860308", "#a50f15", "#de2d26", "#fb6a4a", "#fc9272", "#fcbba1", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd", "#08519c", "#063e78"];
 
     var grad = this.svg.append('defs')
         .append('linearGradient')
