@@ -99,12 +99,7 @@ class MapChart {
                 highlightStates.includes(state) ? highlightStates.remove(state) : highlightStates.push(state);
                 console.log(highlightStates);
 
-                    // d3.selectAll("path").filter(function(d) {
-                    //     // return d.properties.name == cluster
-                    //     return highlightStates.includes(d.properties.name)
-                    //
-                    // // }).style("stroke", "#f00");
-                    // }).style("stroke", "black");
+
 
 
                 // const node = this.svg.node();
@@ -114,6 +109,16 @@ class MapChart {
                 // node.dispatchEvent(new CustomEvent("input"));
                 // outline.attr("d", value ? path(d) : null);
         });
+        d3.selectAll("path")
+            .data(us.features)
+            .enter()
+            .append("path")
+            .filter(function(d) {
+            // return d.properties.name == cluster
+            return highlightStates.includes(d.properties.name)
+
+            // }).style("stroke", "#f00");
+        }).style("stroke", "black");
 
         // const outline = this.svg.append("path")
         //     .attr("fill", "none")
@@ -122,45 +127,6 @@ class MapChart {
         //     .attr("pointer-events", "none");
         //
         // return Object.assign(this.svg.node(), {value: null});
-
-        ////// was kinda working..
-        // let projection = d3.geoAlbersUsa()
-        // let projection = d3.geoConicConformal().scale(150).translate([400, 350])
-        // let projection = d3.geoAlbers().scale([50])
-        // let path = d3.geoPath(projection)
-        // let value = null;
-        // const g = this.svg.append("g")
-        //     .attr("transform", "translate(0,40)");
-        //
-        // this.svg.append("g")
-        //     .attr("fill", "#ccc")
-        //     .selectAll("path")
-        //     .data(topojson.feature(us, us.objects.states).features)
-        //     .enter().append("path")
-        //     .attr("d", path)
-        //     .on("click", d => {
-        //         console.log(d.id)
-        //         const node = this.svg.node();
-        //         node.value = value = value === d.id ? null : d.id;
-        //         node.dispatchEvent(new CustomEvent("input"));
-        //         outline.attr("d", value ? path(d) : null);
-        //     });
-        //
-        // this.svg.append("path")
-        //     .datum(topojson.mesh(us, us.objects.states, (a, b) => a !== b))
-        //     .attr("fill", "none")
-        //     .attr("stroke", "white")
-        //     .attr("stroke-linejoin", "round")
-        //     .attr("pointer-events", "none")
-        //     .attr("d", path);
-        //
-        // const outline = this.svg.append("path")
-        //     .attr("fill", "none")
-        //     .attr("stroke", "black")
-        //     .attr("stroke-linejoin", "round")
-        //     .attr("pointer-events", "none");
-
-
     }
 
     update() {
