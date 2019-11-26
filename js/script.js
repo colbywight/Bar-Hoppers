@@ -21,7 +21,7 @@ let corrBars = new CorrelationBar();
 //                                 votePercentageChart, electionWinners);
 //   yearChart.update();
 // });
-let mapChart = new MapChart();
+// let mapChart = new MapChart();
 
 d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
   // mapChart.update();
@@ -33,12 +33,21 @@ d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
   // yearChart.update();
 });
 
-// https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json
+d3.csv("data/masterTable.csv").then(masterTable => {
+    let mapChart = new MapChart(masterTable);
+
+    // mapChart.update();
+    // corrBars.update();
+    // spAttr.update();
     d3.json("data/us-states.json")
         .then(function(us) {
-          console.log(us);
-          mapChart.drawMap(us);
+            mapChart.drawMap(us);
         });
+
+});
+
+// https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json
+
 // d3.json("https://unpkg.com/us-atlas@1/us/10m.json")
 //     .then(function(us) {
 //       console.log(us);

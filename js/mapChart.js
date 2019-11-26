@@ -7,9 +7,13 @@ class MapChart {
      * and to populate the legend.
      */
     // constructor(tooltip){
-    constructor() {
+    constructor(masterTable) {
         console.log('in Map Chart');
         // this.stateScores = stateScores;
+        this.masterTable = masterTable;
+        console.log(this.masterTable);
+        console.log(this.masterTable[1].avgTestScore);
+        console.log(this.masterTable[1].diversity);
 
         let map = d3.select("#map").classed("content", true);
         this.margin = {top: 30, right: 20, bottom: 30, left: 50};
@@ -63,6 +67,7 @@ class MapChart {
      * @param party an ID for the party that is being referred to.
      */
     drawMap(us){
+        console.log(us)
         let value = null;
         let highlightStates = [];
 
@@ -73,7 +78,7 @@ class MapChart {
 // Define path generator
         let path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
             .projection(projection);
-
+// fuction to remove element by state name from highlight states list
         Array.prototype.remove = function() {
             var what, a = arguments, L = a.length, ax;
             while (L && this.length) {
@@ -85,6 +90,25 @@ class MapChart {
             return this;
         };
 
+        // add the test scores to the paths.
+        for (let i = 0; i < this.masterTable.length; i++){
+            let dataState = this.masterTable[i].state;
+            let dataValue = this.masterTable[i].avgTestScore;
+            for (let j = 0; j < us.features.length; j++) {
+                let jsonState = us.features[j].properties.name;
+                if (dataState == jsonState) {
+                    us.features[j].properties.score = dataValue;
+                    break;
+                }
+            }
+        }
+        console.log(us);
+        // create color scale for heat map.
+        let colorScale = d3.scaleLinear()
+            .domain([250, 300])
+            .range(['lightblue', 'darkblue']);
+
+
         this.svg.selectAll("path")
             .data(us.features)
             .enter()
@@ -92,20 +116,19 @@ class MapChart {
             .attr("d", path)
             .style("stroke", "#fff")
             .style("stroke-width", "1")
-            .style("fill", 'lightgrey' )
+            // .style("fill", 'lightgrey' )
+            .style('fill', d => {console.log(colorScale(d.properties.score));return colorScale(d.properties.score)})
             .on('click', d => {
                 // console.log(d.properties.name);
                 let state = d.properties.name;
                 highlightStates.includes(state) ? highlightStates.remove(state) : highlightStates.push(state);
                 console.log(highlightStates);
-
-
-
+                this.outlineStates(highlightStates);
 
                 // const node = this.svg.node();
                 // console.log(node.value);
                 // node.value = value = value === d.id ? null : d.id;
-                // console.log(node.value);
+                // console.log(node);
                 // node.dispatchEvent(new CustomEvent("input"));
                 // outline.attr("d", value ? path(d) : null);
         });
@@ -120,13 +143,27 @@ class MapChart {
             // }).style("stroke", "#f00");
         }).style("stroke", "black");
 
-        // const outline = this.svg.append("path")
-        //     .attr("fill", "none")
-        //     .attr("stroke", "black")
-        //     .attr("stroke-linejoin", "round")
-        //     .attr("pointer-events", "none");
-        //
-        // return Object.assign(this.svg.node(), {value: null});
+    //     const outline = this.svg.append("path")
+    //         .attr("fill", "none")
+    //         .attr("stroke", "black")
+    //         .attr("stroke-linejoin", "round")
+    //         .attr("pointer-events", "none");
+    //
+    //     return Object.assign(this.svg.node(), {value: null});
+    }
+
+
+    outlineStates(highlightStates){
+        console.log('outlineStates');
+        let paths = this.svg.selectAll('path')
+            // .style("stroke", "black")
+        ;
+        paths.filter(function(d) {
+            // console.log(d);
+            return highlightStates.includes(d.properties.name)
+        })
+            .append()
+        .style("stroke", "black")
     }
 
     update() {
