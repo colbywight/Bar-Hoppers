@@ -5,6 +5,7 @@
 let featMatrix = new FeatureMatrix();
 let spAttr = new AttrScatterplot();
 let corrBars = new CorrelationBar();
+let rankTable = new RankTable();
 //
 // let shiftChart = new SelectionChart();
 //

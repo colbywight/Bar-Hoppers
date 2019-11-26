@@ -8,12 +8,8 @@ class MapChart {
      */
     // constructor(tooltip){
     constructor(masterTable) {
-        console.log('in Map Chart');
-        // this.stateScores = stateScores;
         this.masterTable = masterTable;
         console.log(this.masterTable);
-        console.log(this.masterTable[1].avgTestScore);
-        console.log(this.masterTable[1].diversity);
 
         let map = d3.select("#map").classed("content", true);
         this.margin = {top: 30, right: 20, bottom: 30, left: 50};
@@ -102,7 +98,8 @@ class MapChart {
                 }
             }
         }
-        console.log(us);
+        // console.log(us);
+
         // create color scale for heat map.
         let colorScale = d3.scaleLinear()
             .domain([250, 300])
@@ -117,7 +114,7 @@ class MapChart {
             .style("stroke", "#fff")
             .style("stroke-width", "1")
             // .style("fill", 'lightgrey' )
-            .style('fill', d => {console.log(colorScale(d.properties.score));return colorScale(d.properties.score)})
+            .style('fill', d => {return colorScale(d.properties.score)})
             .on('click', d => {
                 // console.log(d.properties.name);
                 let state = d.properties.name;
@@ -154,7 +151,7 @@ class MapChart {
 
 
     outlineStates(highlightStates){
-        console.log('outlineStates');
+        // console.log('outlineStates');
         let paths = this.svg.selectAll('path')
             // .style("stroke", "black")
         ;
