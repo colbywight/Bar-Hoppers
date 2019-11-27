@@ -56,6 +56,9 @@ class RankTable {
             .append('tr')
         ;
         tr.append('td')
+            .text((d, i) => i + 1)
+        ;
+        tr.append('td')
             .text(d => d)
         ;
 
