@@ -2,6 +2,8 @@
 //
 // let votePercentageChart = new PerformanceMap(tooltip);
 //
+let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure","avgTestScore"]
+
 let featMatrix = new FeatureMatrix();
 let rankTable = new RankTable();
 let barChart = new BarChart();
@@ -30,6 +32,7 @@ d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
   //     votePercentageChart, electionWinners);
   // yearChart.update();
 });
+// create a list of all of the selectable attributes
 
 d3.csv("data/masterTable.csv").then(masterTable => {
     for(let i = 0; i < masterTable.length; i++){

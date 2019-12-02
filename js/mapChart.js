@@ -2,6 +2,8 @@
 /** Class implementing the tileChart. */
 class MapChart {
     // cite this properly:
+    // this map was made using examples from Michelle Chandra's post on:
+    // http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
 
     /**
      * Initializes the svg elements required to lay the tiles
@@ -22,15 +24,14 @@ class MapChart {
 
         this.svg = map.append("svg")
             .attr("width", this.svgWidth)
-            .attr("width", 960)
+            .attr("width", 600)
             // .attr("height", this.svgHeight)
-            .attr("height", 400)
-            .attr("height", 600)
+            .attr("height", 500)
             .attr("transform", "translate(" + this.margin.left + ",0)");
 
         this.svg.append('rect')
             .attr("width", this.svgWidth)
-            .attr("height", 400)
+            .attr("height", 500)
             .style('fill', 'lightgrey')
         ;
 
@@ -83,11 +84,18 @@ class MapChart {
             .range(['lightblue', 'darkblue']);
         let legend = this.svg.append('g')
         ;
+        let legendWidth = 200
+        let legendScale = d3.scaleLinear
+
+        for (let i = 1; i < 10; i++){
+            legend.append()
+        }
+
         legend.append('rect')
-            .attr('x', '600')
-            .attr('y', '300')
-            .attr('width', '50')
-            .attr('height', '25')
+            .attr('x', '200')
+            .attr('y', '425')
+            .attr('width', '200')
+            .attr('height', '10')
             .style('fill', 'red')
         ;
 
