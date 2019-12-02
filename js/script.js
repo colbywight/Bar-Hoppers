@@ -56,3 +56,23 @@ d3.csv("data/masterTable.csv").then(masterTable => {
 //       console.log(us);
 //       mapChart.drawMap(us);
 //     });
+
+
+function findRankings(rawData, selectableAttr)
+{
+    let rankDataList = [];
+    for(let i = 0; i < rawData.length; i++) {
+        let retArr = [];
+        let keysSorted = Object.keys(rawData[i]).sort(function(a,b){return rawData[i][a]-rawData[i][b]})
+        retArr = retArr.concat(keysSorted);
+        for(let j = 0; j < keysSorted.length; j++) {
+            if (!selectableAttr.includes(keysSorted[j])) {
+                let remInd = keysSorted.indexOf(keysSorted[j]);
+                retArr.splice(remInd, 1);
+            }
+        }
+        let newStateObj = {name:rawData[i].abbreviation, rank:retArr};
+        rankDataList.push(newStateObj);
+    }
+    return rankDataList;
+}
