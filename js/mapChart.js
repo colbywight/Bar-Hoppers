@@ -1,6 +1,7 @@
 
 /** Class implementing the tileChart. */
 class MapChart {
+    // cite this properly:
 
     /**
      * Initializes the svg elements required to lay the tiles
@@ -18,14 +19,7 @@ class MapChart {
         this.svgWidth = svgBounds.width - this.margin.left - this.margin.right;
         this.svgHeight = this.svgWidth / 2 + 30;
         let legendHeight = 150;
-        //add the svg to the div
-        // let legend = d3.select("#legend").classed("content",true);
 
-        //creates svg elements within the div
-        // this.legendSvg = legend.append("svg")
-        //     .attr("width",this.svgWidth)
-        //     .attr("height",legendHeight)
-        //     .attr("transform", "translate(" + this.margin.left + ",0)");
         this.svg = map.append("svg")
             .attr("width", this.svgWidth)
             .attr("width", 960)
@@ -34,36 +28,18 @@ class MapChart {
             .attr("height", 600)
             .attr("transform", "translate(" + this.margin.left + ",0)");
 
-        // let divTiles = d3.select("#tiles").classed("content", true);
-        // this.margin = {top: 30, right: 20, bottom: 30, left: 50};
-        // //Gets access to the div element created for this chart and legend element from HTML
-        // let svgBounds = divTiles.node().getBoundingClientRect();
-        // this.svgWidth = svgBounds.width - this.margin.left - this.margin.right;
-        // this.svgHeight = this.svgWidth/2 + 30;
-        // let legendHeight = 150;
-        // //add the svg to the div
-        // let legend = d3.select("#legend").classed("content",true);
-        //
-        // //creates svg elements within the div
-        // this.legendSvg = legend.append("svg")
-        //   .attr("width",this.svgWidth)
-        //   .attr("height",legendHeight)
-        //   .attr("transform", "translate(" + this.margin.left + ",0)");
-        // this.svg = divTiles.append("svg")
-        //   .attr("width",this.svgWidth)
-        //   .attr("height",this.svgHeight)
-        //   .attr("transform", "translate(" + this.margin.left + ",0)");
-        //
-        // this.tooltip = tooltip;
+        this.svg.append('rect')
+            .attr("width", this.svgWidth)
+            .attr("height", 400)
+            .style('fill', 'lightgrey')
+        ;
+
+
     };
 
-    /**
-     * Returns the class that needs to be assigned to an element.
-     *
-     * @param party an ID for the party that is being referred to.
-     */
     drawMap(us){
-        console.log(us)
+        // console.log(us);
+        console.log(us.features);
         let value = null;
         let highlightStates = [];
 
@@ -98,12 +74,23 @@ class MapChart {
                 }
             }
         }
-        // console.log(us);
+
+        // get the max and min perfomrance scores.
 
         // create color scale for heat map.
         let colorScale = d3.scaleLinear()
-            .domain([250, 300])
+            .domain([260, 290])
             .range(['lightblue', 'darkblue']);
+        let legend = this.svg.append('g')
+            .transform()
+        ;
+        legend.append('rect')
+            .attr('x', '600')
+            .attr('y', '300')
+            .attr('width', '50')
+            .attr('height', '25')
+            .style('fill', 'red')
+        ;
 
 
         this.svg.selectAll("path")
@@ -112,41 +99,51 @@ class MapChart {
             .append("path")
             .attr("d", path)
             .style("stroke", "#fff")
+            // .style("stroke", "black")
             .style("stroke-width", "1")
             // .style("fill", 'lightgrey' )
             .style('fill', d => {return colorScale(d.properties.score)})
-            .on('click', d => {
-                // console.log(d.properties.name);
-                let state = d.properties.name;
-                highlightStates.includes(state) ? highlightStates.remove(state) : highlightStates.push(state);
-                console.log(highlightStates);
-                this.outlineStates(highlightStates);
+        //     .on('click', d => {
+        //         console.log(d);
+        //
+        //         d3.select(this.svg.node()).style('stroke-width', "3");
+        //         // console.log(d.properties.name);
+        //         let state = d.properties.name;
+        //         highlightStates.includes(state) ? highlightStates.remove(state) : highlightStates.push(state);
+        //         // console.log(highlightStates);
+        //
+        //         // this.outlineStates(highlightStates);
+        //
+        //         // const node = this.svg.node();
+        //         // console.log(node.value);
+        //         // node.value = value = value === d.id ? null : d.id;
+        //         // console.log(node);
+        //         // node.dispatchEvent(new CustomEvent("input"));
+        //         // outline.attr("d", value ? path(d) : null);
+        // });
+        .on('click', function (d) {
+            console.log(this);
+            d3.select(this).style('stroke-width', "3");
 
-                // const node = this.svg.node();
-                // console.log(node.value);
-                // node.value = value = value === d.id ? null : d.id;
-                // console.log(node);
-                // node.dispatchEvent(new CustomEvent("input"));
-                // outline.attr("d", value ? path(d) : null);
         });
-        d3.selectAll("path")
-            .data(us.features)
-            .enter()
-            .append("path")
-            .filter(function(d) {
-            // return d.properties.name == cluster
-            return highlightStates.includes(d.properties.name)
+        // d3.selectAll("path")
+        //     .data(us.features)
+        //     .enter()
+        //     .append("path")
+        //     .filter(function(d) {
+        //     // return d.properties.name == cluster
+        //     return highlightStates.includes(d.properties.name)
+        //
+        //     // }).style("stroke", "#f00");
+        // }).style("stroke", "black");
 
-            // }).style("stroke", "#f00");
-        }).style("stroke", "black");
+        const outline = this.svg.append("path")
+            .attr("fill", "none")
+            .attr("stroke", "black")
+            .attr("stroke-linejoin", "round")
+            .attr("pointer-events", "none");
 
-    //     const outline = this.svg.append("path")
-    //         .attr("fill", "none")
-    //         .attr("stroke", "black")
-    //         .attr("stroke-linejoin", "round")
-    //         .attr("pointer-events", "none");
-    //
-    //     return Object.assign(this.svg.node(), {value: null});
+        return Object.assign(this.svg.node(), {value: null});
     }
 
 
