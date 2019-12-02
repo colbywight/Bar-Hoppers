@@ -32,6 +32,11 @@ d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
 });
 
 d3.csv("data/masterTable.csv").then(masterTable => {
+    for(let i = 0; i < masterTable.length; i++){
+        if (masterTable[i].state == ""){
+            masterTable.splice(i, 1)
+        }
+    }
     let mapChart = new MapChart(masterTable);
 
     // mapChart.update();
