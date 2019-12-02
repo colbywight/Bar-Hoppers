@@ -82,7 +82,6 @@ class MapChart {
             .domain([260, 290])
             .range(['lightblue', 'darkblue']);
         let legend = this.svg.append('g')
-            .transform()
         ;
         legend.append('rect')
             .attr('x', '600')
