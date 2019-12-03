@@ -10,7 +10,10 @@ class MapChart {
      * and to populate the legend.
      */
     // constructor(tooltip){
-    constructor(masterTable) {
+    constructor(masterTable, stateAttrRankList, barChart) {
+        this.barChart = barChart;
+        this.stateAttrRankList = stateAttrRankList;
+        console.log(this.stateAttrRankList);
         this.masterTable = masterTable;
         console.log(this.masterTable);
 
@@ -84,22 +87,53 @@ class MapChart {
             .range(['lightblue', 'darkblue']);
         let legend = this.svg.append('g')
         ;
-        let legendWidth = 200
-        let legendScale = d3.scaleLinear
+        let legendWidth = 200;
+        let legendScale = d3.scaleLinear()
+            .domain([0, legendWidth])
+            .range([260, 290])
+        ;
 
-        for (let i = 1; i < 10; i++){
-            legend.append()
+        // legend.append('rect')
+        //     .attr('x', '199.5')
+        //     .attr('y', '424')
+        //     .attr('width', '203')
+        //     .attr('height', '11')
+        //     .style('fill', 'black')
+        // ;
+
+        for (let i = 1; i < 100; i++){
+            legend.append('rect')
+                .attr('x', String(200+i*legendWidth/100))
+                .attr('y', '425')
+                .attr('width', String(5 + legendWidth/100))
+                // .attr('width', String(5))
+                .attr('height', '10')
+                .style('fill', colorScale(legendScale(i*legendWidth/100)))
         }
-
-        legend.append('rect')
-            .attr('x', '200')
-            .attr('y', '425')
-            .attr('width', '200')
-            .attr('height', '10')
-            .style('fill', 'red')
+        this.svg.append('text')
+            .text('Lowest')
+            .attr('x', '180')
+            .attr('y', '450')
+            .style('font-size', '13px')
+        ;
+        this.svg.append('text')
+            .text('Highest')
+            .attr('x', '385')
+            .attr('y', '450')
+            .style('font-size', '13px')
         ;
 
 
+        // legend.append('rect')
+        //     .attr('x', '200')
+        //     .attr('y', '425')
+        //     .attr('width', '200')
+        //     .attr('height', '10')
+        //     .style('fill', 'red')
+        // ;
+
+        let thiss = this;
+        let selectedStates = [];
         this.svg.selectAll("path")
             .data(us.features)
             .enter()
@@ -131,6 +165,15 @@ class MapChart {
         .on('click', function (d) {
             console.log(this);
             d3.select(this).style('stroke-width', "3");
+            let state = d.properties.name;
+            highlightStates.includes(state) ? highlightStates.remove(state) : highlightStates.push(state);
+            // const obj = thiss.stateAttrRankList.find(({ object }) => object.state === state);
+            const obj = thiss.stateAttrRankList.find(a => a.state === state);
+            let checkIt = selectedStates.indexOf(obj);
+            (checkIt == -1) ? selectedStates.push(obj) : selectedStates.splice(checkIt, 1);
+            // selectedStates.includes(obj) ? highlightStates.remove(obj) : highlightStates.push(obj);
+            console.log(selectedStates)
+            thiss.barChart.update(selectedStates);
 
         });
         // d3.selectAll("path")
