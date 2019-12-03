@@ -171,8 +171,7 @@ class MapChart {
             const obj = thiss.stateAttrRankList.find(a => a.state === state);
             let checkIt = selectedStates.indexOf(obj);
             (checkIt == -1) ? selectedStates.push(obj) : selectedStates.splice(checkIt, 1);
-            // selectedStates.includes(obj) ? highlightStates.remove(obj) : highlightStates.push(obj);
-            console.log(selectedStates)
+            // console.log(selectedStates);
             thiss.barChart.update(selectedStates);
 
         });

@@ -16,37 +16,38 @@ class BarChart {
     /**
      * Render and update the bar chart based on the selection of the data type in the drop-down box
      */
-    update(selectedDimension) {
+    update(rankedData) {
         // ******* TODO: PART I *******
-        let selectedAttr = ['funding', 'libraries', 'giftedtalented'];
-        let rankedData = [
-            {state: "Utah", name: "UT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "AA", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "BB", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "CC", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "DD", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "EE", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "FF", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "GG", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "HH", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "II", rank: ["funding", "libraries", "diversity", "giftedtalented"]},
-            {name: "JJ", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "KK", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "LL", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "MM", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "NN", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "OO", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "PP", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "QQ", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "RR", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "SS", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "TT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "UU", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "VV", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "WW", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-            {name: "XX", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-
-        ];
+        this.svg.select('#bars').selectAll('*').remove();
+        let selectedAttr = ['studentFinancialAssistance', 'averageHoursInSchoolDay', 'averageDailyAttendance'];
+        // let rankedData = [
+        //     {state: "Utah", name: "UT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "AA", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "BB", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "CC", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "DD", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "EE", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "FF", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "GG", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "HH", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "II", rank: ["funding", "libraries", "diversity", "giftedtalented"]},
+        //     {name: "JJ", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "KK", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "LL", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "MM", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "NN", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "OO", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "PP", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "QQ", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "RR", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "SS", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "TT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "UU", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "VV", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "WW", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //     {name: "XX", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+        //
+        // ];
 
         this.svg.attr('transform', `scale(1, -1)`);
         rankedData.sort(function(x, y){
@@ -57,7 +58,6 @@ class BarChart {
         let svgHeight = 400;
 
         let bChartBars = this.svg.select('#bars').selectAll('g').data(xaxisVal);
-        bChartBars.exit().remove();
 
         bChartBars.enter().append('g').attr('id', (d) => 'grp' + d)
 

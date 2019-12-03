@@ -27,7 +27,7 @@ let barChart = new BarChart(attributes);
 
 d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
   // mapChart.update();
-    barChart.update();
+  //   barChart.update();
   // let yearChart = new MainMenu(electoralVoteChart, tileChart,
   //     votePercentageChart, electionWinners);
   // yearChart.update();
