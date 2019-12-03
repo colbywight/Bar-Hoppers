@@ -7,9 +7,10 @@ class BarChart {
      * @param infoPanel
      * @param allData
      */
-    constructor() {
+    constructor(attributes) {
         let barchart = d3.select("#barchart");
         this.svg = barchart;
+        this.allattributes = attributes;
     }
 
     /**
@@ -18,9 +19,8 @@ class BarChart {
     update(selectedDimension) {
         // ******* TODO: PART I *******
         let selectedAttr = ['funding', 'libraries', 'giftedtalented'];
-        let selectableAttr = ['funding', 'libraries', 'giftedtalented', 'diversity']
         let rankedData = [
-            {name: "UT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {state: "Utah", name: "UT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
             {name: "AA", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
             {name: "BB", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
             {name: "CC", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
@@ -36,58 +36,17 @@ class BarChart {
             {name: "MM", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
             {name: "NN", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
             {name: "OO", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "PP", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "QQ", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "RR", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "SS", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "TT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "UU", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "VV", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "WW", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+            {name: "XX", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
+
         ];
-        // let data = [  {name: "Utah", abreviation: "UT", funding: 5, libraries: 45.99, giftedtalented: 3, diversity: 12},
-        //     {name: "Alabama", abreviation: "AL", funding: 10, libraries: 123.75, giftedtalented: 15, diversity: 12},
-        //     {name: "Texas", abreviation: "TX", funding: 2, libraries: 399.50, giftedtalented: 5, diversity: 12},
-        //     {name: "Mississippi", abreviation: "MI", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Maine", abreviation: "MA", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Vermont", abreviation: "VM", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "South Dakota", abreviation: "SD", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "South Carolina", abreviation: "SC", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Nevada", abreviation: "NV", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "California", abreviation: "CA", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OA", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OB", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OC", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OD", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OE", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OF", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OG", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OH", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OI", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OJ", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OK", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OL", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OM", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "ON", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OO", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OP", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OQ", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OS", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OT", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OU", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OV", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OW", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OX", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OY", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "OZ", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "ZZ", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "AA", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "BB", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "CC", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "DD", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "EE", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "FF", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "GG", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "HH", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "II", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "JJ", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "KK", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "LL", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "MM", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        //     {name: "Oregon", abreviation: "NN", funding: 7, libraries: 250.50, giftedtalented: 10, diversity: 12},
-        // ];
 
         this.svg.attr('transform', `scale(1, -1)`);
         rankedData.sort(function(x, y){
@@ -113,7 +72,7 @@ class BarChart {
         ;
         let height = svgHeight - 55;
         let yscale = d3.scaleLinear()
-            .domain([selectableAttr.length, 0])
+            .domain([this.allattributes.length, 0])
             .range([0, height])
         ;
 
@@ -128,7 +87,7 @@ class BarChart {
         ;
 
         let yaxis = d3.axisLeft(yscale)
-            .ticks(selectableAttr.length)
+            .ticks(this.allattributes.length)
             .tickFormat(d3.format("d"))
         ;
 
@@ -155,7 +114,7 @@ class BarChart {
         //   })
         //   d3.select(this).style('fill', 'maroon')
         // }
-
+        let allAttrLen = this.allattributes.length;
         for(let ind = 0; ind < xaxisVal.length; ind++) {
             let stateGroupSel = this.svg.select('#grp' + xaxisVal[ind]).selectAll('rect').data(selectedAttr);
             stateGroupSel
@@ -191,7 +150,7 @@ class BarChart {
                 .attr('height', function(d, i) {
                     var stateData = rankedData.find(obj => {return obj.name === xaxisVal[ind]});
                     var ranking = stateData.rank.indexOf(d) + 1;
-                    return (height/selectableAttr.length) * ranking;
+                    return (height/allAttrLen) * ranking;
                 })//(d,i) => height-yscale(yaxisVal[i]))
             ;
         }

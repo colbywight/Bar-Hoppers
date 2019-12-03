@@ -6,7 +6,7 @@ let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averag
 
 let featMatrix = new FeatureMatrix();
 let rankTable = new RankTable();
-let barChart = new BarChart();
+let barChart = new BarChart(attributes);
 //
 // let shiftChart = new SelectionChart();
 //
@@ -41,6 +41,7 @@ d3.csv("data/masterTable.csv").then(masterTable => {
         }
     }
     let stateAttrRankList = findRankings(masterTable, attributes);
+    let obj = stateAttrRankList.find(a => a.state === "Utah");
     let mapChart = new MapChart(masterTable);
 
     // mapChart.update();
