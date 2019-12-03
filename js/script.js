@@ -2,7 +2,7 @@
 //
 // let votePercentageChart = new PerformanceMap(tooltip);
 //
-let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure","avgTestScore"]
+let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure"]
 
 let featMatrix = new FeatureMatrix();
 let rankTable = new RankTable();
@@ -40,6 +40,7 @@ d3.csv("data/masterTable.csv").then(masterTable => {
             masterTable.splice(i, 1)
         }
     }
+    let stateAttrRankList = findRankings(masterTable, attributes);
     let mapChart = new MapChart(masterTable);
 
     // mapChart.update();
@@ -63,18 +64,32 @@ d3.csv("data/masterTable.csv").then(masterTable => {
 
 function findRankings(rawData, selectableAttr)
 {
+    //get max performance to compare to
     let rankDataList = [];
     for(let i = 0; i < rawData.length; i++) {
-        let retArr = [];
-        let keysSorted = Object.keys(rawData[i]).sort(function(a,b){return rawData[i][a]-rawData[i][b]})
-        retArr = retArr.concat(keysSorted);
-        for(let j = 0; j < keysSorted.length; j++) {
-            if (!selectableAttr.includes(keysSorted[j])) {
-                let remInd = keysSorted.indexOf(keysSorted[j]);
-                retArr.splice(remInd, 1);
-            }
+        //get performance of attribute and normalize with max
+        let performanceScore = rawData.map(function(a) {return a['avgTestScore']});
+        let maxPerformance = Math.max.apply(Math,performanceScore);
+        let compPerformance = rawData[i].avgTestScore/maxPerformance;
+        //loop through selectable attr
+        let sortAttr = [];
+        for(let j = 0; j < selectableAttr.length; j++) {
+            //find max val of that attr, normalize, find distance from performance and save that as new value
+            let attribute = rawData[i][selectableAttr[j]];
+            let attrList = rawData.map(function(a) {return a[selectableAttr[j]]});
+            let maxAttr = Math.max.apply(Math,attrList);
+            let attrScore = attribute/maxAttr;
+            let attrDist = Math.abs(compPerformance - attrScore);
+            sortAttr.push([{name: selectableAttr[j]}, attrDist]);
         }
-        let newStateObj = {name:rawData[i].abbreviation, rank:retArr};
+        //order the properties and create an array of the sorted attributes
+        sortAttr.sort(function(a, b) {
+            return b[1] - a[1];
+        });
+        //create new object with the abbreviation and the rank array
+        let retArr = sortAttr.map(function(a) {return a[0].name});
+
+        let newStateObj = {state: rawData[i].state, name:rawData[i].abbreviation, rank:retArr};
         rankDataList.push(newStateObj);
     }
     return rankDataList;
