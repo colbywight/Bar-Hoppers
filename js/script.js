@@ -41,8 +41,7 @@ d3.csv("data/masterTable.csv").then(masterTable => {
         }
     }
     let stateAttrRankList = findRankings(masterTable, attributes);
-    let obj = stateAttrRankList.find(a => a.state === "Utah");
-    let mapChart = new MapChart(masterTable);
+    let mapChart = new MapChart(masterTable, stateAttrRankList, barChart);
 
     // mapChart.update();
     // corrBars.update();
