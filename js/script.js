@@ -41,6 +41,7 @@ d3.csv("data/masterTable.csv").then(masterTable => {
         }
     }
     let stateAttrRankList = findRankings(masterTable, attributes);
+    let totRankOfAttr = findOverallRankings(stateAttrRankList);
     let mapChart = new MapChart(masterTable, stateAttrRankList, barChart);
 
     // mapChart.update();
@@ -93,4 +94,26 @@ function findRankings(rawData, selectableAttr)
         rankDataList.push(newStateObj);
     }
     return rankDataList;
+}
+
+function findOverallRankings(rankData){
+    var totRank = new Map()
+    for(let i = 0; i < rankData.length; i++) {
+        let rankList = rankData[i].rank;
+        for(let j = 0; j < rankList.length; j++){
+            let attribute = rankList[j];
+            if(!(totRank.has(attribute)))
+                totRank.set(attribute, j + 1);
+            else
+                totRank.set(attribute, totRank.get(attribute) + (j + 1))
+        }
+    }
+    let sortAttr = [];
+    for (const [key, value] of totRank.entries()) {
+        sortAttr.push([{attrname: key, ranktot: value}]);
+    }
+    sortAttr.sort(function(a, b) {
+        return a[0].ranktot - b[0].ranktot;
+    });
+    return sortAttr;
 }
