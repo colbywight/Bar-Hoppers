@@ -3,9 +3,20 @@
 // let votePercentageChart = new PerformanceMap(tooltip);
 //
 let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure"]
-
+let attrColor = [
+    {attrname: "studentFinancialAssistance", attrcol: "red"},
+    {attrname: "averageHoursInSchoolDay", attrcol: "orange"},
+    {attrname: "averageDailyAttendance", attrcol: "yellow"},
+    {attrname: "diversity", attrcol: "lime"},
+    {attrname: "libraryVisitsPerCapita", attrcol: "#113b08"},
+    {attrname: "giftedTalentedProgramsEnrollment", attrcol: "cyan"},
+    {attrname: "homlesStudentsPerEnrollment", attrcol: "navy"},
+    {attrname: "pupilTeacherRatio", attrcol: "purple"},
+    {attrname: "percentTeachersPhd", attrcol: "gray"},
+    {attrname: "totalExpenditure", attrcol: "magenta"},
+]
 let featMatrix = new FeatureMatrix();
-let barChart = new BarChart(attributes);
+let barChart = new BarChart(attributes, attrColor);
 let rankTable = new RankTable(attributes, barChart);
 
 //

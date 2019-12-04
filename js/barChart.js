@@ -7,12 +7,13 @@ class BarChart {
      * @param infoPanel
      * @param allData
      */
-    constructor(attributes) {
+    constructor(attributes, attrColorList) {
         this.selectedAttr = [];
         this.rankedData = [];
         let barchart = d3.select("#barchart");
         this.svg = barchart;
         this.allattributes = attributes;
+        this.colorList = attrColorList;
     }
     updateSelectedAttributes(attributes){
         this.selectedAttr = attributes
@@ -27,6 +28,7 @@ class BarChart {
     update() {
         // ******* TODO: PART I *******
         this.svg.select('#bars').selectAll('*').remove();
+        this.svg.select('#gridLinesHorz').selectAll('*').remove();
         // let selectedAttr = ['studentFinancialAssistance', 'averageHoursInSchoolDay', 'averageDailyAttendance'];
         // let rankedData = [
         //     {state: "Utah", name: "UT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
@@ -76,7 +78,7 @@ class BarChart {
         let xscale = d3.scaleBand()
             .domain(xaxisVal)
             .range([yaxisWidth,svgWidth-yaxisWidth])
-            .padding(0.25)
+            // .padding(0.25)
         ;
         let height = svgHeight - 55;
         let yscale = d3.scaleLinear()
@@ -103,27 +105,68 @@ class BarChart {
             .call(xaxis)
             .selectAll("text")
             .style("text-anchor", "middle")
+            .style('font-size', 16)
         ;
 
         yaxisSel.attr('transform', `translate(${yaxisWidth + 40}, ${svgHeight-10}) scale(1, -1)`)
             .transition()
             .duration(1000)
             .call(yaxis)
+            .selectAll("text")
+            .style('font-size', 14)
         ;
 
-        let colorFunc = function (i) {
-            // var yVal = yaxisVal[i]/d3.max(yaxisVal);
-            return d3.interpolateLab("#45b6fe", "#0e2433");//(yVal);
-        }
+        let gridLines = this.svg.select('#gridLines').selectAll('line').data([1, 3, 5, 7, 9]);
+        gridLines.enter()
+            .append("line")
+            .attr('x1', yaxisWidth)
+            .attr('x2', svgWidth-yaxisWidth)
+            .attr('y1', function(d){
+                return yscale(d);
+            })
+            .attr('y2', function(d){
+                return yscale(d);
+            })
+            .attr('transform', `translate(${yaxisWidth}, 79)`)
+            .style("fill", "none")
+            .style("stroke", "#d3d3d3")
+            .style("stroke-width", 1)
+        ;
 
-        // let onClickFunc = function(d){
-        //   d3.select('#bars').selectAll('rect').style('fill', function(d,i){
-        //     return colorFunc(i);
-        //   })
-        //   d3.select(this).style('fill', 'maroon')
-        // }
+        let gridLinesHorz = this.svg.select('#gridLinesHorz').selectAll('line').data(xaxisVal);
+        gridLinesHorz.enter()
+            .append("line")
+            .attr('x1', function(d, i) {
+                let gridW = yaxisWidth + ((svgWidth - yaxisWidth - yaxisWidth)/xaxisVal.length);
+                let toAdd = (svgWidth - yaxisWidth - yaxisWidth);
+                if(xaxisVal.length > 1)
+                    toAdd = toAdd/xaxisVal.length;
+                return gridW + (toAdd * i);
+            })
+            .attr('x2', function(d, i) {
+                let gridW = yaxisWidth + ((svgWidth - yaxisWidth - yaxisWidth)/xaxisVal.length);
+                let toAdd = (svgWidth - yaxisWidth - yaxisWidth);
+                if(xaxisVal.length > 1)
+                    toAdd = toAdd/xaxisVal.length;
+                return gridW + (toAdd * i);
+            })
+            .attr('y1', svgHeight)
+            .attr('y2', 0)
+            .attr('transform', `translate(${yaxisWidth}, 0)`)
+            .style("fill", "none")
+            .style("stroke", "#d3d3d3")
+            .style("stroke-width", 1)
+        ;
+
         let allAttrTemp = this.allattributes;
         let rankedDataTemp = this.rankedData;
+        let colorList = this.colorList;
+        let selectedAttr = this.selectedAttr;
+        let spaceInBlock = yaxisWidth + ((svgWidth - yaxisWidth - yaxisWidth)/xaxisVal.length) - yaxisWidth;
+        let barPadding = spaceInBlock*.25;
+        let totalSpacePerAttr = (spaceInBlock - barPadding)/selectedAttr.length;
+        console.log("length: ", xaxisVal.length);
+
         for(let ind = 0; ind < xaxisVal.length; ind++) {
             let stateGroupSel = this.svg.select('#grp' + xaxisVal[ind]).selectAll('rect').data(this.selectedAttr);
             stateGroupSel
@@ -131,14 +174,14 @@ class BarChart {
                 .append('rect')
                 .attr('transform', `translate(${yaxisWidth}, 10)`)
                 .attr('x', function(d,i){
-                    let barGroupSpace = (svgWidth-yaxisWidth)/rankedDataTemp.length;
-                    let barPadding = barGroupSpace*.3;
-                    let totalSpacePerAttr = (barGroupSpace - barPadding)/allAttrTemp.length;
-                    let stuff = xscale(xaxisVal[ind]) + (i * totalSpacePerAttr) + (barPadding/2) - 5;
-                    return stuff;
+                    let startPosition = ((spaceInBlock)*ind) + yaxisWidth + (barPadding/2);
+                    let barPosition = (startPosition + (totalSpacePerAttr * i));
+                    return barPosition;
                 })
                 .attr('y', xaxisHeight)
-                .attr('width', 5)
+                .attr('width', function(d) {
+                    return totalSpacePerAttr;
+                })
                 .merge(stateGroupSel)
                 // .on('click', function(d){
                 //     d3.select('#bars').selectAll('rect').style('fill', function(d,i){
@@ -151,10 +194,8 @@ class BarChart {
                 .transition()
                 .duration(1000)
                 .style("fill", function(d,i){
-                    // if(d3.select(this).attr("class") == 'selected'){
-                        return "maroon";
-                    // }
-                    // return colorFunc(i); //pass i to scale
+                    const color = colorList.find(a => a.attrname === d);
+                    return color.attrcol;
                 })
                 .attr('height', function(d, i) {
                     var stateData = rankedDataTemp.find(obj => {return obj.name === xaxisVal[ind]});
