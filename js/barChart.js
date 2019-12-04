@@ -8,18 +8,26 @@ class BarChart {
      * @param allData
      */
     constructor(attributes) {
+        this.selectedAttr = [];
+        this.rankedData = [];
         let barchart = d3.select("#barchart");
         this.svg = barchart;
         this.allattributes = attributes;
+    }
+    updateSelectedAttributes(attributes){
+        this.selectedAttr = attributes
+    }
+    updateSelectedStates(states){
+        this.rankedData = states
     }
 
     /**
      * Render and update the bar chart based on the selection of the data type in the drop-down box
      */
-    update(rankedData) {
+    update() {
         // ******* TODO: PART I *******
         this.svg.select('#bars').selectAll('*').remove();
-        let selectedAttr = ['studentFinancialAssistance', 'averageHoursInSchoolDay', 'averageDailyAttendance'];
+        // let selectedAttr = ['studentFinancialAssistance', 'averageHoursInSchoolDay', 'averageDailyAttendance'];
         // let rankedData = [
         //     {state: "Utah", name: "UT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
         //     {name: "AA", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
@@ -50,10 +58,10 @@ class BarChart {
         // ];
 
         this.svg.attr('transform', `scale(1, -1)`);
-        rankedData.sort(function(x, y){
+        this.rankedData.sort(function(x, y){
             return d3.ascending(x.name, y.name);
         });
-        var xaxisVal = rankedData.map(function(a) {return a.name});
+        var xaxisVal = this.rankedData.map(function(a) {return a.name});
         let svgWidth = 1400;
         let svgHeight = 400;
 
@@ -114,17 +122,18 @@ class BarChart {
         //   })
         //   d3.select(this).style('fill', 'maroon')
         // }
-        let allAttrLen = this.allattributes.length;
+        let allAttrTemp = this.allattributes;
+        let rankedDataTemp = this.rankedData;
         for(let ind = 0; ind < xaxisVal.length; ind++) {
-            let stateGroupSel = this.svg.select('#grp' + xaxisVal[ind]).selectAll('rect').data(selectedAttr);
+            let stateGroupSel = this.svg.select('#grp' + xaxisVal[ind]).selectAll('rect').data(this.selectedAttr);
             stateGroupSel
                 .enter()
                 .append('rect')
                 .attr('transform', `translate(${yaxisWidth}, 10)`)
                 .attr('x', function(d,i){
-                    let barGroupSpace = (svgWidth-yaxisWidth)/rankedData.length;
+                    let barGroupSpace = (svgWidth-yaxisWidth)/rankedDataTemp.length;
                     let barPadding = barGroupSpace*.3;
-                    let totalSpacePerAttr = (barGroupSpace - barPadding)/selectedAttr.length;
+                    let totalSpacePerAttr = (barGroupSpace - barPadding)/allAttrTemp.length;
                     let stuff = xscale(xaxisVal[ind]) + (i * totalSpacePerAttr) + (barPadding/2) - 5;
                     return stuff;
                 })
@@ -148,9 +157,9 @@ class BarChart {
                     // return colorFunc(i); //pass i to scale
                 })
                 .attr('height', function(d, i) {
-                    var stateData = rankedData.find(obj => {return obj.name === xaxisVal[ind]});
+                    var stateData = rankedDataTemp.find(obj => {return obj.name === xaxisVal[ind]});
                     var ranking = stateData.rank.indexOf(d) + 1;
-                    return (height/allAttrLen) * ranking;
+                    return (height/allAttrTemp.length) * ranking;
                 })//(d,i) => height-yscale(yaxisVal[i]))
             ;
         }

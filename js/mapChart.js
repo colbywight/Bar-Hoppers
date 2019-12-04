@@ -13,9 +13,9 @@ class MapChart {
     constructor(masterTable, stateAttrRankList, barChart) {
         this.barChart = barChart;
         this.stateAttrRankList = stateAttrRankList;
-        console.log(this.stateAttrRankList);
+        // console.log(this.stateAttrRankList);
         this.masterTable = masterTable;
-        console.log(this.masterTable);
+        // console.log(this.masterTable);
 
         let map = d3.select("#map").classed("content", true);
         this.margin = {top: 30, right: 20, bottom: 30, left: 50};
@@ -172,8 +172,10 @@ class MapChart {
             let checkIt = selectedStates.indexOf(obj);
             (checkIt == -1) ? selectedStates.push(obj) : selectedStates.splice(checkIt, 1);
             // console.log(selectedStates);
-            thiss.barChart.update(selectedStates);
+            thiss.barChart.updateSelectedStates(selectedStates);
+            thiss.barChart.update();
 
+            // thiss.rankTable.updateSelectedStates(selectedStates);
         });
         // d3.selectAll("path")
         //     .data(us.features)

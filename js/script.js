@@ -5,8 +5,9 @@
 let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure"]
 
 let featMatrix = new FeatureMatrix();
-let rankTable = new RankTable();
 let barChart = new BarChart(attributes);
+let rankTable = new RankTable(attributes, barChart);
+
 //
 // let shiftChart = new SelectionChart();
 //

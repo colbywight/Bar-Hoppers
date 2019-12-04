@@ -7,9 +7,11 @@ class RankTable {
      * and to populate the legend.
      */
     // constructor(tooltip){
-    constructor() {
+    constructor(attributes, barChart) {
         // I'm going to get a list of the attributes in order from highest to lowest.
+        this.barChart = barChart;
         console.log('rank table constructor');
+        this.attributes = attributes;
 
         // let rankTable = d3.select("#ranktable").classed("content", true);
         // this.margin = {top: 30, right: 20, bottom: 30, left: 50};
@@ -45,28 +47,48 @@ class RankTable {
     buildTable(){
         // this could take in the list of attributes in order of most correlated to
         // least correlated to performance.
-        let attributes = ['Funding', 'Libraries', 'Parent Involvement']
+        // let attributes = ['Funding', 'Libraries', 'Parent Involvement']
         // let table = this.svg.append('table')
         //     .append('th')
         //     .text('Factors')
         // ;
         let tr = d3.select('table').select('tbody').selectAll('tr')
-            .data(attributes)
+            .data(this.attributes)
             .enter()
             .append('tr')
         ;
         tr.append('td')
             .text((d, i) => i + 1)
         ;
+        let clickedAttributes = [];
+
+        Array.prototype.remove = function() {
+            var what, a = arguments, L = a.length, ax;
+            while (L && this.length) {
+                what = a[--L];
+                while ((ax = this.indexOf(what)) !== -1) {
+                    this.splice(ax, 1);
+                }
+            }
+            return this;
+        };
+
         tr.append('td')
             .text(d => d)
-        ;
+            .on('click', d => {
+                // console.log(d);
+                clickedAttributes.includes(d) ? clickedAttributes.remove(d) : clickedAttributes.push(d)
+                // console.log(clickedAttributes)
+                this.barChart.updateSelectedAttributes(clickedAttributes);
+                this.barChart.update();
 
-
+            }
+    )
     }
 
-
-
+    updateSelectedStates(selectedStates){
+        this.selectedStates = selectedStates
+    }
 
     update() {
 
