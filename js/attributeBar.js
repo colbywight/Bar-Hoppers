@@ -83,7 +83,7 @@ class AttributeBar {
             .attr('y', bary)
             .attr('width', barWidth)
             .attr('height', barHeight)
-            .style('fill', 'url(#grad')
+            .style('fill', 'url(#grad)')
         ;
 
 
@@ -114,7 +114,7 @@ class AttributeBar {
             // .attr('cx', d => console.log(d); return d.ranktot;)
             .attr('cx', function (d) {return scaler(d[0].ranktot);})
             .attr('cy', bary + 5)
-            .attr('r', '15')
+            .attr('r', '13')
             .style('fill', 'white')
             // .style('stroke', 'blue')
             .style('stroke', function (d) {
@@ -136,6 +136,12 @@ class AttributeBar {
                 // console.log(d3.select(this).style('fill') == 'white');
                 // console.log(d3.select(this).style('fill'));
                 // console.log(color)
+                if (d3.select(this).attr('r') == 13){
+                    d3.select(this).attr('r', 19)
+                }
+                else {
+                    d3.select(this).attr('r', 13)
+                }
                 if (d3.select(this).style('fill') == 'white'){
                     d3.select(this).style('fill', color)
                 }
@@ -145,6 +151,7 @@ class AttributeBar {
 
                 // d3.select(this)
                 //     .style('fill', 'blue')
+
                 clickedAttributes.includes(d[0].attrname) ? clickedAttributes.remove(d[0].attrname) : clickedAttributes.push(d[0].attrname)
                 thiss.barChart.updateSelectedAttributes(clickedAttributes);
                 thiss.barChart.update();

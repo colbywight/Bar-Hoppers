@@ -103,13 +103,41 @@ class MapChart {
         let colorScale = d3.scaleLinear()
             .domain([260, 290])
             .range(['lightblue', 'darkblue']);
-        let legend = this.svg.append('g')
-        ;
+        // let legend = this.svg.append('g')
+        // ;
         let legendWidth = 200;
-        let legendScale = d3.scaleLinear()
-            .domain([0, legendWidth])
-            .range([260, 290])
+        // let legendScale = d3.scaleLinear()
+        //     .domain([0, legendWidth])
+        //     .range([260, 290])
+        // ;
+
+        let color = ["lightblue", "darkblue"];
+
+        let grads = this.svg.append('defs')
+            .append('linearGradient')
+            .attr('id', 'grad2')
+            .attr('x1', '0%')
+            .attr('x2', '100%')
+            .attr('y1', '0%')
+            .attr('y2', '0%');
+
+        grads.selectAll('stop')
+            .data(color)
+            .enter()
+            .append('stop')
+            .style('stop-color', function(d){ return d; })
+            .attr('offset', function(d,i){
+                return 100 * (i / (color.length - 1)) + '%';
+            });
+
+        let legend = this.svg.append('rect')
+            .attr('x', '750')
+            .attr('y', '424')
+            .attr('width', '203')
+            .attr('height', '11')
+            .style('fill', 'url(#grad2)')
         ;
+
 
         // legend.append('rect')
         //     .attr('x', '199.5')
@@ -119,15 +147,16 @@ class MapChart {
         //     .style('fill', 'black')
         // ;
 
-        for (let i = 1; i < 100; i++){
-            legend.append('rect')
-                .attr('x', String(600+i*legendWidth/100))
-                .attr('y', '425')
-                .attr('width', String(5 + legendWidth/100))
-                // .attr('width', String(5))
-                .attr('height', '10')
-                .style('fill', colorScale(legendScale(i*legendWidth/100)))
-        }
+        // for (let i = 1; i < 100; i++){
+        //     legend.append('rect')
+        //         .attr('x', String(600+i*legendWidth/100))
+        //         .attr('y', '425')
+        //         .attr('width', String(5 + legendWidth/100))
+        //         // .attr('width', String(5))
+        //         .attr('height', '10')
+        //         .style('fill', colorScale(legendScale(i*legendWidth/100)))
+        // }
+
         this.svg.append('text')
             .text('LOW PERFORMANCE')
             .style('font-family', 'Lato')
