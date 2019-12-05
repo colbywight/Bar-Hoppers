@@ -18,7 +18,7 @@ class AttributeBar {
         this.svg = d3.select('#attributeBar')
             .append('svg')
             .attr('width', 1500)
-            .attr('height', 350)
+            .attr('height', 250)
         ;
 
         // let rankTable = d3.select("#ranktable").classed("content", true);

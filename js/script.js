@@ -8,7 +8,15 @@ let header = d3.select('#header')
     .attr('font-size', '50px')
     .attr('x', 750)
     .style('text-anchor', 'middle')
-    .attr('y', 75)
+    .attr('y', 75);
+
+let barHeader = d3.select('#barcharttitle')
+    .select('text')
+    .style('font-family', 'Impact')
+    .attr('font-size', '40px')
+    .attr('x', 750)
+    .style('text-anchor', 'middle')
+    .attr('y', 75);
 
 let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure"]
 let attrColor = [
