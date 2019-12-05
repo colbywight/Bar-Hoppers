@@ -26,38 +26,8 @@ class BarChart {
      * Render and update the bar chart based on the selection of the data type in the drop-down box
      */
     update() {
-        // ******* TODO: PART I *******
         this.svg.select('#bars').selectAll('*').remove();
         this.svg.select('#gridLinesHorz').selectAll('*').remove();
-        // let selectedAttr = ['studentFinancialAssistance', 'averageHoursInSchoolDay', 'averageDailyAttendance'];
-        // let rankedData = [
-        //     {state: "Utah", name: "UT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "AA", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "BB", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "CC", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "DD", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "EE", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "FF", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "GG", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "HH", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "II", rank: ["funding", "libraries", "diversity", "giftedtalented"]},
-        //     {name: "JJ", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "KK", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "LL", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "MM", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "NN", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "OO", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "PP", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "QQ", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "RR", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "SS", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "TT", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "UU", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "VV", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "WW", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //     {name: "XX", rank: ["funding", "libraries", "giftedtalented", "diversity"]},
-        //
-        // ];
 
         this.svg.attr('transform', `scale(1, -1)`);
         this.rankedData.sort(function(x, y){
@@ -68,26 +38,23 @@ class BarChart {
         let svgHeight = 400;
 
         let bChartBars = this.svg.select('#bars').selectAll('g').data(xaxisVal);
-
         bChartBars.enter().append('g').attr('id', (d) => 'grp' + d)
 
         // Create the x and y scales; make
         // sure to leave room for the axes
-        let xaxisHeight = 35;
+        let xaxisHeight = 75;
         let yaxisWidth = 40;
         let xscale = d3.scaleBand()
             .domain(xaxisVal)
             .range([yaxisWidth,svgWidth-yaxisWidth])
-            // .padding(0.25)
+            .padding(0.25)
         ;
         let height = svgHeight - 55;
         let yscale = d3.scaleLinear()
             .domain([this.allattributes.length, 0])
-            .range([0, height])
+            .range([-xaxisHeight, height - 30])
         ;
 
-        // Create colorScale
-        //
         // Create the axes (hint: use #xAxis and #yAxis)
         let xaxisSel = this.svg.select('#xAxis');
         let yaxisSel = this.svg.select('#yAxis');
@@ -101,12 +68,23 @@ class BarChart {
             .tickFormat(d3.format("d"))
         ;
 
-        xaxisSel.attr('transform', `translate(${yaxisWidth}, 45) scale(1, -1)`)
+        xaxisSel.attr('transform', `translate(${yaxisWidth}, ${xaxisHeight}) scale(1, -1)`)
             .call(xaxis)
             .selectAll("text")
             .style("text-anchor", "middle")
             .style('font-size', 16)
         ;
+
+        this.svg.append('text')
+            .attr('transform', `scale(1, -1)`)
+            .attr('x', svgWidth/2 + yaxisWidth)
+            .attr('y', -10)
+            .text('States')
+            .attr('text-anchor', 'middle')
+            .attr("font-size", "20px")
+            .attr("fill", "black")
+            .style('font-family', 'Arvo');
+
 
         yaxisSel.attr('transform', `translate(${yaxisWidth + 40}, ${svgHeight-10}) scale(1, -1)`)
             .transition()
@@ -116,16 +94,40 @@ class BarChart {
             .style('font-size', 14)
         ;
 
+        this.svg.append('text')
+            .attr('transform', `translate(${yaxisWidth + 40}, ${svgHeight-10}) scale(1, -1)`)
+            .attr('x', 1000)
+            .attr('y', -1000)
+            .text('Strong')
+            .attr("font-size", "12px")
+            .attr("fill", "black")
+            .attr("transform", "rotate(-65)");
+        this.svg.append('text')
+        // .attr('transform', `scale(1, -1)`)
+            .attr('x', -100)
+            .attr('y', 300)
+            .text('Weak')
+            .attr("font-size", "12px")
+            .attr("fill", "black")
+            .attr("transform", "rotate(90)");
+        this.svg.append('text')
+            .attr('transform', `scale(1, -1)`)
+            .attr('x', 50)
+            .attr('y', -150)
+            .text('Correlation')
+            .attr("font-size", "12px")
+            .attr("fill", "black");
+
         let gridLines = this.svg.select('#gridLines').selectAll('line').data([1, 3, 5, 7, 9]);
         gridLines.enter()
             .append("line")
             .attr('x1', yaxisWidth)
             .attr('x2', svgWidth-yaxisWidth)
             .attr('y1', function(d){
-                return yscale(d);
+                return yscale(d) + 110;
             })
             .attr('y2', function(d){
-                return yscale(d);
+                return yscale(d) + 110;
             })
             .attr('transform', `translate(${yaxisWidth}, 79)`)
             .style("fill", "none")
@@ -150,8 +152,8 @@ class BarChart {
                     toAdd = toAdd/xaxisVal.length;
                 return gridW + (toAdd * i);
             })
-            .attr('y1', svgHeight)
-            .attr('y2', 0)
+            .attr('y1', svgHeight + 130)
+            .attr('y2', 40)
             .attr('transform', `translate(${yaxisWidth}, 0)`)
             .style("fill", "none")
             .style("stroke", "#d3d3d3")
@@ -178,7 +180,7 @@ class BarChart {
                     let barPosition = (startPosition + (totalSpacePerAttr * i));
                     return barPosition;
                 })
-                .attr('y', xaxisHeight)
+                .attr('y', xaxisHeight - 10)
                 .attr('width', function(d) {
                     return totalSpacePerAttr;
                 })
