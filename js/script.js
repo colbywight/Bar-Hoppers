@@ -4,16 +4,16 @@
 //
 let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure"]
 let attrColor = [
-    {attrname: "studentFinancialAssistance", attrcol: "red"},
-    {attrname: "averageHoursInSchoolDay", attrcol: "orange"},
-    {attrname: "averageDailyAttendance", attrcol: "yellow"},
-    {attrname: "diversity", attrcol: "lime"},
-    {attrname: "libraryVisitsPerCapita", attrcol: "#113b08"},
-    {attrname: "giftedTalentedProgramsEnrollment", attrcol: "cyan"},
-    {attrname: "homlesStudentsPerEnrollment", attrcol: "navy"},
-    {attrname: "pupilTeacherRatio", attrcol: "purple"},
-    {attrname: "percentTeachersPhd", attrcol: "gray"},
-    {attrname: "totalExpenditure", attrcol: "magenta"},
+    {attrname: "studentFinancialAssistance", attrcol: "red", attrlabel: "Student Financial Assistance"},
+    {attrname: "averageHoursInSchoolDay", attrcol: "orange", attrlabel: "Hours in School Day"},
+    {attrname: "averageDailyAttendance", attrcol: "yellow", attrlabel: "Daily Attendance"},
+    {attrname: "diversity", attrcol: "lime", attrlabel: "Diversity"},
+    {attrname: "libraryVisitsPerCapita", attrcol: "#113b08", attrlabel: "Library Visits"},
+    {attrname: "giftedTalentedProgramsEnrollment", attrcol: "cyan", attrlabel: "Gifted and Talent Programs"},
+    {attrname: "homlesStudentsPerEnrollment", attrcol: "navy", attrlabel: "Homeless Student Enrollment"},
+    {attrname: "pupilTeacherRatio", attrcol: "purple", attrlabel: "Student Teacher Ratio"},
+    {attrname: "percentTeachersPhd", attrcol: "gray", attrlabel: "Teachers with Phd"},
+    {attrname: "totalExpenditure", attrcol: "magenta", attrlabel: "Funding"},
 ]
 let featMatrix = new FeatureMatrix();
 let barChart = new BarChart(attributes, attrColor);
