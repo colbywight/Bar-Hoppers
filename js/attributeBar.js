@@ -18,7 +18,7 @@ class AttributeBar {
         this.svg = d3.select('#attributeBar')
             .append('svg')
             .attr('width', 1500)
-            .attr('height', 200)
+            .attr('height', 350)
         ;
 
         // let rankTable = d3.select("#ranktable").classed("content", true);
@@ -54,17 +54,39 @@ class AttributeBar {
      */
     buildBar(){
         let barx = 150;
-        let bary = 140;
+        let bary = 180;
         let barWidth = 1200;
         let barHeight = 10;
+
+        // Create the svg:defs element and the main gradient definition.
+        let colors = ["black", "lightgrey"];
+
+        var grad = this.svg.append('defs')
+            .append('linearGradient')
+            .attr('id', 'grad')
+            .attr('x1', '0%')
+            .attr('x2', '100%')
+            .attr('y1', '0%')
+            .attr('y2', '0%');
+
+        grad.selectAll('stop')
+            .data(colors)
+            .enter()
+            .append('stop')
+            .style('stop-color', function(d){ return d; })
+            .attr('offset', function(d,i){
+                return 100 * (i / (colors.length - 1)) + '%';
+            });
 
         let bar = this.svg.append('rect')
             .attr('x', barx)
             .attr('y', bary)
             .attr('width', barWidth)
             .attr('height', barHeight)
-            .style('fill', 'lightgray')
+            .style('fill', 'url(#grad')
         ;
+
+
 
         let scaler = d3.scaleLinear()
             .domain([0, 500])
@@ -144,22 +166,28 @@ class AttributeBar {
                     }
                 }
             })
-            .style('font-size', '12px')
+            .style('font-size', '16px')
+            // .style('font-family', "Bahnschrift")
+            .style('font-family', "Lato")
             .attr("text-anchor", "start")
             .attr('transform', (d, i) => {
-                return 'translate( ' + (scaler(d[0].ranktot)) + ', 120), rotate(-45)';
+                return 'translate( ' + (scaler(d[0].ranktot)) + ', 160), rotate(-45)';
             })
         ;
 
         this.svg.append('text')
+            .style('font-size', '22px')
+            .style('font-family', 'Arvo')
             .attr('x', barx - 50)
-            .attr('y', bary + 40)
-            .text('Low Performance Correlation')
+            .attr('y', bary + 60)
+            .text('Low Performance')
         ;
         this.svg.append('text')
-            .attr('x', barWidth - 10)
-            .attr('y', bary + 40)
-            .text('High Performance Correlation')
+            .style('font-size', '22px')
+            .style('font-family', 'Arvo')
+            .attr('x', barWidth + 50)
+            .attr('y', bary + 60)
+            .text('High Performance')
         ;
     }
 
