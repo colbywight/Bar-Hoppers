@@ -94,29 +94,29 @@ class BarChart {
             .style('font-size', 14)
         ;
 
-        this.svg.append('text')
-            .attr('transform', `translate(${yaxisWidth + 40}, ${svgHeight-10}) scale(1, -1)`)
-            .attr('x', 1000)
-            .attr('y', -1000)
-            .text('Strong')
-            .attr("font-size", "12px")
-            .attr("fill", "black")
-            .attr("transform", "rotate(-65)");
-        this.svg.append('text')
-        // .attr('transform', `scale(1, -1)`)
-            .attr('x', -100)
-            .attr('y', 300)
-            .text('Weak')
-            .attr("font-size", "12px")
-            .attr("fill", "black")
-            .attr("transform", "rotate(90)");
-        this.svg.append('text')
-            .attr('transform', `scale(1, -1)`)
-            .attr('x', 50)
-            .attr('y', -150)
-            .text('Correlation')
-            .attr("font-size", "12px")
-            .attr("fill", "black");
+        // this.svg.append('text')
+        //     .attr('transform', `translate(${yaxisWidth + 40}, ${svgHeight-10}) scale(1, -1)`)
+        //     .attr('x', 1000)
+        //     .attr('y', -1000)
+        //     .text('Strong')
+        //     .attr("font-size", "12px")
+        //     .attr("fill", "black")
+        //     .attr("transform", "rotate(-65)");
+        // this.svg.append('text')
+        // // .attr('transform', `scale(1, -1)`)
+        //     .attr('x', -100)
+        //     .attr('y', 300)
+        //     .text('Weak')
+        //     .attr("font-size", "12px")
+        //     .attr("fill", "black")
+        //     .attr("transform", "rotate(90)");
+        // this.svg.append('text')
+        //     .attr('transform', `scale(1, -1)`)
+        //     .attr('x', 50)
+        //     .attr('y', -150)
+        //     .text('Correlation')
+        //     .attr("font-size", "12px")
+        //     .attr("fill", "black");
 
         let gridLines = this.svg.select('#gridLines').selectAll('line').data([1, 3, 5, 7, 9]);
         gridLines.enter()
