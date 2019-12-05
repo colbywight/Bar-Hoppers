@@ -100,18 +100,11 @@ class MapChart {
         // get the max and min perfomrance scores.
 
         // create color scale for heat map.
+        let color = ["lightblue", "darkblue"];
+
         let colorScale = d3.scaleLinear()
             .domain([260, 290])
-            .range(['lightblue', 'darkblue']);
-        // let legend = this.svg.append('g')
-        // ;
-        let legendWidth = 200;
-        // let legendScale = d3.scaleLinear()
-        //     .domain([0, legendWidth])
-        //     .range([260, 290])
-        // ;
-
-        let color = ["lightblue", "darkblue"];
+            .range(color);
 
         let grads = this.svg.append('defs')
             .append('linearGradient')
@@ -130,49 +123,55 @@ class MapChart {
                 return 100 * (i / (color.length - 1)) + '%';
             });
 
+        let legendx = 750;
+        let legendWidth = 203;
+        let legendy = 424;
+        let legendHeight = 15;
+
         let legend = this.svg.append('rect')
-            .attr('x', '750')
-            .attr('y', '424')
-            .attr('width', '203')
-            .attr('height', '11')
+            .attr('x', legendx)
+            .attr('y', legendy)
+            .attr('width', legendWidth)
+            .attr('height', legendHeight)
             .style('fill', 'url(#grad2)')
+            // .attr("stroke", "grey")
         ;
 
-
-        // legend.append('rect')
-        //     .attr('x', '199.5')
-        //     .attr('y', '424')
-        //     .attr('width', '203')
-        //     .attr('height', '11')
-        //     .style('fill', 'black')
-        // ;
-
-        // for (let i = 1; i < 100; i++){
-        //     legend.append('rect')
-        //         .attr('x', String(600+i*legendWidth/100))
-        //         .attr('y', '425')
-        //         .attr('width', String(5 + legendWidth/100))
-        //         // .attr('width', String(5))
-        //         .attr('height', '10')
-        //         .style('fill', colorScale(legendScale(i*legendWidth/100)))
-        // }
-
         this.svg.append('text')
-            .text('LOW PERFORMANCE')
+            .text('LOW ACADEMIC')
             .style('font-family', 'Lato')
-            .attr('x', '590')
-            .attr('y', '450')
-            .style('font-size', '13px')
+            .attr('text-anchor', 'middle')
+            .attr('x', legendx)
+            .attr('y', legendy + legendHeight + 20)
+            .style('font-size', '12px')
             .style('fill', 'grey')
         ;
         this.svg.append('text')
-            .text('HIGH PERFORMANCE')
+            .text('HIGH ACADEMIC')
             .style('font-family', 'Lato')
-            .attr('x', '780')
-            .attr('y', '450')
-            .style('font-size', '13px')
+            .attr('text-anchor', 'middle')
+            .attr('x', legendx + legendWidth)
+            .attr('y', legendy + legendHeight + 20)
+            .style('font-size', '12px')
             .style('fill', 'grey')
-
+        ;
+        this.svg.append('text')
+            .text('PERFORMANCE')
+            .style('font-family', 'Lato')
+            .attr('text-anchor', 'middle')
+            .attr('x', legendx)
+            .attr('y', legendy + legendHeight + 37)
+            .style('font-size', '12px')
+            .style('fill', 'grey')
+        ;
+        this.svg.append('text')
+            .text('PERFORMANCE')
+            .style('font-family', 'Lato')
+            .attr('text-anchor', 'middle')
+            .attr('x', legendx + legendWidth)
+            .attr('y', legendy + legendHeight + 37)
+            .style('font-size', '12px')
+            .style('fill', 'grey')
         ;
 
 
