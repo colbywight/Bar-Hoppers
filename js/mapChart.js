@@ -139,8 +139,8 @@ class MapChart {
             .enter()
             .append("path")
             .attr("d", path)
-            .style("stroke", "#fff")
-            // .style("stroke", "black")
+            // .style("stroke", "#fff")
+            .style("stroke", "white")
             .style("stroke-width", "1")
             // .style("fill", 'lightgrey' )
             .style('fill', d => {return colorScale(d.properties.score)})
@@ -163,19 +163,25 @@ class MapChart {
         //         // outline.attr("d", value ? path(d) : null);
         // });
         .on('click', function (d) {
-            console.log(this);
-            d3.select(this).style('stroke-width', "3");
+
+            // console.log(this);
+            // console.log(d3.select(this).style('stroke-width') == "1");
+            if (d3.select(this).style('stroke-width') == "1"){
+                d3.select(this).style('stroke-width', "3")
+            }
+            else {
+                d3.select(this).style('stroke-width', "1")
+            }
+            // d3.select(this).style('stroke-width', "3")
+            //     .style('stroke', "white");
             let state = d.properties.name;
             highlightStates.includes(state) ? highlightStates.remove(state) : highlightStates.push(state);
             // const obj = thiss.stateAttrRankList.find(({ object }) => object.state === state);
             const obj = thiss.stateAttrRankList.find(a => a.state === state);
             let checkIt = selectedStates.indexOf(obj);
             (checkIt == -1) ? selectedStates.push(obj) : selectedStates.splice(checkIt, 1);
-            // console.log(selectedStates);
             thiss.barChart.updateSelectedStates(selectedStates);
             thiss.barChart.update();
-
-            // thiss.rankTable.updateSelectedStates(selectedStates);
         });
         // d3.selectAll("path")
         //     .data(us.features)

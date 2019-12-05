@@ -105,14 +105,25 @@ class AttributeBar {
             })
             .style('stroke-width', 5)
             .on('click', function (d) {
-                d3.select(this).style('fill', function (d) {
+                let color = "";
                     for (let i = 0; i < thiss.attrColor.length; i++){
                         if (d[0].attrname == thiss.attrColor[i].attrname){
-                            return thiss.attrColor[i].attrcol
+                            // return thiss.attrColor[i].attrcol
+                            color = thiss.attrColor[i].attrcol
                         }
                     }
+                // console.log(d3.select(this).style('fill') == 'white');
+                // console.log(d3.select(this).style('fill'));
+                // console.log(color)
+                if (d3.select(this).style('fill') == 'white'){
+                    d3.select(this).style('fill', color)
+                }
+                else {
+                    d3.select(this).style('fill', 'white')
+                }
 
-                });
+                // d3.select(this)
+                //     .style('fill', 'blue')
                 clickedAttributes.includes(d[0].attrname) ? clickedAttributes.remove(d[0].attrname) : clickedAttributes.push(d[0].attrname)
                 thiss.barChart.updateSelectedAttributes(clickedAttributes);
                 thiss.barChart.update();
@@ -145,12 +156,12 @@ class AttributeBar {
 
         this.svg.append('text')
             .attr('x', barx - 50)
-            .attr('y', bary + 30)
+            .attr('y', bary + 40)
             .text('Low Performance Correlation')
         ;
         this.svg.append('text')
-            .attr('x', barx - 50)
-            .attr('y', bary + 30)
+            .attr('x', barWidth - 10)
+            .attr('y', bary + 40)
             .text('High Performance Correlation')
         ;
     }
