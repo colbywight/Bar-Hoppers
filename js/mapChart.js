@@ -29,13 +29,16 @@ class MapChart {
             .attr("width", 1500)
             // .attr("height", this.svgHeight)
             .attr("height", 500)
-            .attr("transform", "translate(" + this.margin.left + ",0)");
+            // .attr("transform", "translate(" + this.margin.left + ",0)");
+    // .attr("transform", "translate(" + this.margin.left + ",0)");
+
 
         this.svg.append('rect')
-            .attr("x", 380)
-            .attr("width", 630)
+            // .attr("x", 380)
+
+            .attr("width", 1500)
             .attr("height", 500)
-            .style('fill', 'lightgrey')
+            .style('fill', 'black')
         ;
 
 
@@ -48,7 +51,7 @@ class MapChart {
         let highlightStates = [];
 
         let projection = d3.geoAlbersUsa()
-            .translate([700, 200])    // translate to center of screen
+            .translate([650, 200])    // translate to center of screen
             .scale([800]);          // scale things down so see entire US
 
 // Define path generator
@@ -111,16 +114,20 @@ class MapChart {
                 .style('fill', colorScale(legendScale(i*legendWidth/100)))
         }
         this.svg.append('text')
-            .text('Lowest')
+            .text('LOW PERFORMANCE')
+            .style('font-family', 'Lato')
             .attr('x', '590')
             .attr('y', '450')
             .style('font-size', '13px')
+            .style('fill', 'grey')
         ;
         this.svg.append('text')
-            .text('Highest')
+            .text('HIGH PERFORMANCE')
             .attr('x', '780')
             .attr('y', '450')
             .style('font-size', '13px')
+            .style('fill', 'grey')
+
         ;
 
 

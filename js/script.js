@@ -2,18 +2,26 @@
 //
 // let votePercentageChart = new PerformanceMap(tooltip);
 //
+let header = d3.select('#header')
+    .select('text')
+    .style('font-family', 'Arvo')
+    .attr('font-size', '40px')
+    .attr('x', 750)
+    .style('text-anchor', 'middle')
+    .attr('y', 75)
+
 let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure"]
 let attrColor = [
-    {attrname: "studentFinancialAssistance", attrcol: "red", attrlabel: "Student Financial Assistance"},
-    {attrname: "averageHoursInSchoolDay", attrcol: "orange", attrlabel: "Hours in School Day"},
-    {attrname: "averageDailyAttendance", attrcol: "yellow", attrlabel: "Daily Attendance"},
-    {attrname: "diversity", attrcol: "lime", attrlabel: "Diversity"},
-    {attrname: "libraryVisitsPerCapita", attrcol: "#113b08", attrlabel: "Library Visits"},
-    {attrname: "giftedTalentedProgramsEnrollment", attrcol: "cyan", attrlabel: "Gifted and Talent Programs"},
-    {attrname: "homlesStudentsPerEnrollment", attrcol: "navy", attrlabel: "Homeless Student Enrollment"},
-    {attrname: "pupilTeacherRatio", attrcol: "purple", attrlabel: "Student Teacher Ratio"},
-    {attrname: "percentTeachersPhd", attrcol: "gray", attrlabel: "Teachers with Phd"},
-    {attrname: "totalExpenditure", attrcol: "magenta", attrlabel: "Funding"},
+    {attrname: "studentFinancialAssistance", attrcol: "red", attrlabel: "FINACIAL AID"},
+    {attrname: "averageHoursInSchoolDay", attrcol: "orange", attrlabel: "HOURS PER DAY"},
+    {attrname: "averageDailyAttendance", attrcol: "yellow", attrlabel: "ATTENDANCE"},
+    {attrname: "diversity", attrcol: "lime", attrlabel: "DIVERSITY"},
+    {attrname: "libraryVisitsPerCapita", attrcol: "#113b08", attrlabel: "LIBRARY VISITS"},
+    {attrname: "giftedTalentedProgramsEnrollment", attrcol: "cyan", attrlabel: "GIFTED PROGRAMS"},
+    {attrname: "homlesStudentsPerEnrollment", attrcol: "navy", attrlabel: "HOMELESS"},
+    {attrname: "pupilTeacherRatio", attrcol: "purple", attrlabel: "STUDENT-TEACHER"},
+    {attrname: "percentTeachersPhd", attrcol: "gray", attrlabel: "PHD TEACHERS"},
+    {attrname: "totalExpenditure", attrcol: "magenta", attrlabel: "FUNDING"},
 ]
 let featMatrix = new FeatureMatrix();
 let barChart = new BarChart(attributes, attrColor);
