@@ -9,7 +9,6 @@ class MapChart {
      * Initializes the svg elements required to lay the tiles
      * and to populate the legend.
      */
-    // constructor(tooltip){
     constructor(masterTable, stateAttrRankList, barChart) {
         this.barChart = barChart;
         this.stateAttrRankList = stateAttrRankList;
@@ -26,14 +25,15 @@ class MapChart {
         let legendHeight = 150;
 
         this.svg = map.append("svg")
-            .attr("width", this.svgWidth)
-            .attr("width", 600)
+            // .attr("width", this.svgWidth)
+            .attr("width", 1500)
             // .attr("height", this.svgHeight)
             .attr("height", 500)
             .attr("transform", "translate(" + this.margin.left + ",0)");
 
         this.svg.append('rect')
-            .attr("width", this.svgWidth)
+            .attr("x", 380)
+            .attr("width", 630)
             .attr("height", 500)
             .style('fill', 'lightgrey')
         ;
@@ -48,15 +48,15 @@ class MapChart {
         let highlightStates = [];
 
         let projection = d3.geoAlbersUsa()
-            .translate([300, 200])    // translate to center of screen
+            .translate([700, 200])    // translate to center of screen
             .scale([800]);          // scale things down so see entire US
 
 // Define path generator
-        let path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
+        let path = d3.geoPath()
             .projection(projection);
 // fuction to remove element by state name from highlight states list
         Array.prototype.remove = function() {
-            var what, a = arguments, L = a.length, ax;
+            let what, a = arguments, L = a.length, ax;
             while (L && this.length) {
                 what = a[--L];
                 while ((ax = this.indexOf(what)) !== -1) {
@@ -103,7 +103,7 @@ class MapChart {
 
         for (let i = 1; i < 100; i++){
             legend.append('rect')
-                .attr('x', String(200+i*legendWidth/100))
+                .attr('x', String(600+i*legendWidth/100))
                 .attr('y', '425')
                 .attr('width', String(5 + legendWidth/100))
                 // .attr('width', String(5))
@@ -112,13 +112,13 @@ class MapChart {
         }
         this.svg.append('text')
             .text('Lowest')
-            .attr('x', '180')
+            .attr('x', '590')
             .attr('y', '450')
             .style('font-size', '13px')
         ;
         this.svg.append('text')
             .text('Highest')
-            .attr('x', '385')
+            .attr('x', '780')
             .attr('y', '450')
             .style('font-size', '13px')
         ;

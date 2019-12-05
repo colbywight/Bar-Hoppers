@@ -11,7 +11,7 @@ class AttributeBar {
         // I'm going to get a list of the attributes in order from highest to lowest.
         this.barChart = barChart;
         this.attrColor = attrColor;
-        console.log(attrColor)
+        console.log(attrColor);
         this.totRank = totRank;
         console.log(this.totRank);
 
@@ -54,7 +54,7 @@ class AttributeBar {
      */
     buildBar(){
         let barx = 150;
-        let bary = 100;
+        let bary = 140;
         let barWidth = 1200;
         let barHeight = 10;
 
@@ -65,7 +65,6 @@ class AttributeBar {
             .attr('height', barHeight)
             .style('fill', 'lightgray')
         ;
-
 
         let scaler = d3.scaleLinear()
             .domain([0, 500])
@@ -92,7 +91,7 @@ class AttributeBar {
             .append('circle')
             // .attr('cx', d => console.log(d); return d.ranktot;)
             .attr('cx', function (d) {return scaler(d[0].ranktot);})
-            .attr('cy', '105')
+            .attr('cy', bary + 5)
             .attr('r', '15')
             .style('fill', 'white')
             // .style('stroke', 'blue')
@@ -131,26 +130,24 @@ class AttributeBar {
             })
         ;
 
-        let toggleColor = (function(){
-            let currentColor = "white";
-
-            return function(){
-                currentColor = currentColor == "white" ? "magenta" : "white";
-                d3.select(this).style("fill", currentColor);
-            }
-        })();
-
         this.svg.selectAll('text')
             .data(this.totRank)
             .enter()
             .append('text')
             // .attr('x', function (d) {return scaler(d[0].ranktot) -10;})
             // .attr('y', '30')
-            .text(d => d[0].attrname)
+            // .text(d => d[0].attrname)
+            .text(function (d) {
+                for (let i = 0; i < thiss.attrColor.length; i++){
+                    if (d[0].attrname == thiss.attrColor[i].attrname){
+                        return thiss.attrColor[i].attrlabel
+                    }
+                }
+            })
             .style('font-size', '12px')
             .attr("text-anchor", "start")
             .attr('transform', (d, i) => {
-                return 'translate( ' + (scaler(d[0].ranktot) + 40) + ', 60), rotate(-30)';
+                return 'translate( ' + (scaler(d[0].ranktot)) + ', 120), rotate(-45)';
             })
         ;
 
@@ -168,9 +165,5 @@ class AttributeBar {
 
     updateSelectedStates(selectedStates){
         this.selectedStates = selectedStates
-    }
-
-    update() {
-
     }
 }
