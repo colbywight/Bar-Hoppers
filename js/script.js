@@ -5,7 +5,7 @@
 let header = d3.select('#header')
     .select('text')
     .style('font-family', 'Arvo')
-    .attr('font-size', '40px')
+    .attr('font-size', '50px')
     .attr('x', 750)
     .style('text-anchor', 'middle')
     .attr('y', 75)

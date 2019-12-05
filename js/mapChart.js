@@ -28,7 +28,7 @@ class MapChart {
             // .attr("width", this.svgWidth)
             .attr("width", 1500)
             // .attr("height", this.svgHeight)
-            .attr("height", 500)
+            .attr("height", 500);
             // .attr("transform", "translate(" + this.margin.left + ",0)");
     // .attr("transform", "translate(" + this.margin.left + ",0)");
 
@@ -40,6 +40,21 @@ class MapChart {
             .attr("height", 500)
             .style('fill', 'black')
         ;
+        this.svg.append('text')
+            .text("Performance")
+            .style("font-family", 'Impact')
+            .style('font-size', '90px')
+            .style('fill', 'grey')
+            .attr('transform', 'translate(77, 490), rotate(-90)')
+        ;
+        this.svg.append('text')
+            .text("Across the US")
+            .style("font-family", 'Impact')
+            .style('font-size', '85px')
+            .style('fill', 'grey')
+            .attr('transform', 'translate(153, 488), rotate(-90)')
+        ;
+
 
 
     };
@@ -51,7 +66,7 @@ class MapChart {
         let highlightStates = [];
 
         let projection = d3.geoAlbersUsa()
-            .translate([650, 200])    // translate to center of screen
+            .translate([750, 200])    // translate to center of screen
             .scale([800]);          // scale things down so see entire US
 
 // Define path generator
@@ -123,6 +138,7 @@ class MapChart {
         ;
         this.svg.append('text')
             .text('HIGH PERFORMANCE')
+            .style('font-family', 'Lato')
             .attr('x', '780')
             .attr('y', '450')
             .style('font-size', '13px')

@@ -178,16 +178,18 @@ class AttributeBar {
         this.svg.append('text')
             .style('font-size', '22px')
             .style('font-family', 'Arvo')
-            .attr('x', barx - 50)
+            .attr('x', barx)
             .attr('y', bary + 60)
             .text('Low Performance')
+            .attr('text-anchor', 'middle')
         ;
         this.svg.append('text')
             .style('font-size', '22px')
             .style('font-family', 'Arvo')
-            .attr('x', barWidth + 50)
+            .attr('x', barWidth + barx)
             .attr('y', bary + 60)
             .text('High Performance')
+            .attr('text-anchor', 'middle')
         ;
     }
 
