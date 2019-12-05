@@ -17,8 +17,7 @@ let attrColor = [
 ]
 let featMatrix = new FeatureMatrix();
 let barChart = new BarChart(attributes, attrColor);
-let rankTable = new RankTable(attributes, barChart);
-
+// let rankTable = new RankTable(attributes, barChart);
 //
 // let shiftChart = new SelectionChart();
 //
@@ -55,6 +54,8 @@ d3.csv("data/masterTable.csv").then(masterTable => {
     let stateAttrRankList = findRankings(masterTable, attributes);
     let totRankOfAttr = findOverallRankings(stateAttrRankList);
     let mapChart = new MapChart(masterTable, stateAttrRankList, barChart);
+    let attributeBar = new AttributeBar(barChart, attrColor, totRankOfAttr);
+
 
     // mapChart.update();
     // corrBars.update();
