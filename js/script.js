@@ -27,7 +27,7 @@ let attrColor = [
     {attrname: "libraryVisitsPerCapita", attrcol: "#113b08", attrlabel: "LIBRARY VISITS"},
     {attrname: "giftedTalentedProgramsEnrollment", attrcol: "cyan", attrlabel: "GIFTED PROGRAMS"},
     {attrname: "homlesStudentsPerEnrollment", attrcol: "navy", attrlabel: "HOMELESS"},
-    {attrname: "pupilTeacherRatio", attrcol: "purple", attrlabel: "STUDENT-TEACHER"},
+    {attrname: "pupilTeacherRatio", attrcol: "purple", attrlabel: "TEACHER-STUDENT"},
     {attrname: "percentTeachersPhd", attrcol: "gray", attrlabel: "PHD TEACHERS"},
     {attrname: "totalExpenditure", attrcol: "magenta", attrlabel: "FUNDING"},
 ]

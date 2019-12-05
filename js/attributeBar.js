@@ -53,6 +53,7 @@ class AttributeBar {
      * @param party an ID for the party that is being referred to.
      */
     buildBar(){
+
         let barx = 150;
         let bary = 180;
         let barWidth = 1200;
@@ -198,6 +199,22 @@ class AttributeBar {
             .text('High Performance')
             .attr('text-anchor', 'middle')
         ;
+
+        let barTitle = this.svg.append('text')
+            .text("Attribute")
+            .style("font-family", 'Arvo')
+            .style('font-size', '50px')
+            .style('fill', 'black')
+            .attr('text-anchor', 'middle')
+            .attr('transform', 'translate(140, 70), rotate(0)')
+        ;
+        let barTitle2 = this.svg.append('text')
+            .text("Importance Selector")
+            .style("font-family", 'Arvo')
+            .style('font-size', '25px')
+            .style('fill', 'black')
+            .attr('text-anchor', 'middle')
+            .attr('transform', 'translate(140, 100), rotate(0)')
     }
 
     updateSelectedStates(selectedStates){
