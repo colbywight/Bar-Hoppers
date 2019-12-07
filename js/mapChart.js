@@ -28,7 +28,7 @@ class MapChart {
             // .attr("width", this.svgWidth)
             .attr("width", 1500)
             // .attr("height", this.svgHeight)
-            .attr("height", 500);
+            .attr("height", 300);
             // .attr("transform", "translate(" + this.margin.left + ",0)");
     // .attr("transform", "translate(" + this.margin.left + ",0)");
 
@@ -36,24 +36,25 @@ class MapChart {
         this.svg.append('rect')
             // .attr("x", 380)
 
-            .attr("width", 1500)
+            .attr("width", 420)
             .attr("height", 500)
             .style('fill', 'black')
         ;
-        this.svg.append('text')
-            .text("Performance")
-            .style("font-family", 'Impact')
-            .style('font-size', '90px')
-            .style('fill', 'grey')
-            .attr('transform', 'translate(77, 490), rotate(-90)')
-        ;
-        this.svg.append('text')
-            .text("Across the US")
-            .style("font-family", 'Impact')
-            .style('font-size', '85px')
-            .style('fill', 'grey')
-            .attr('transform', 'translate(153, 488), rotate(-90)')
-        ;
+
+        // this.svg.append('text')
+        //     .text("Performance")
+        //     .style("font-family", 'Impact')
+        //     .style('font-size', '90px')
+        //     .style('fill', 'grey')
+        //     .attr('transform', 'translate(77, 490), rotate(-90)')
+        // ;
+        // this.svg.append('text')
+        //     .text("Across the US")
+        //     .style("font-family", 'Impact')
+        //     .style('font-size', '85px')
+        //     .style('fill', 'grey')
+        //     .attr('transform', 'translate(153, 488), rotate(-90)')
+        // ;
 
 
 
@@ -66,8 +67,8 @@ class MapChart {
         let highlightStates = [];
 
         let projection = d3.geoAlbersUsa()
-            .translate([750, 200])    // translate to center of screen
-            .scale([800]);          // scale things down so see entire US
+            .translate([230, 120])    // translate to center of screen
+            .scale([500]);          // scale things down so see entire US
 
 // Define path generator
         let path = d3.geoPath()
@@ -123,10 +124,10 @@ class MapChart {
                 return 100 * (i / (color.length - 1)) + '%';
             });
 
-        let legendx = 750;
-        let legendWidth = 203;
-        let legendy = 424;
-        let legendHeight = 15;
+        let legendx = 200;
+        let legendWidth = 100;
+        let legendy = 250;
+        let legendHeight = 10;
 
         let legend = this.svg.append('rect')
             .attr('x', legendx)
@@ -143,7 +144,7 @@ class MapChart {
             .attr('text-anchor', 'middle')
             .attr('x', legendx)
             .attr('y', legendy + legendHeight + 20)
-            .style('font-size', '12px')
+            .style('font-size', '10px')
             .style('fill', 'grey')
         ;
         this.svg.append('text')
@@ -152,7 +153,7 @@ class MapChart {
             .attr('text-anchor', 'middle')
             .attr('x', legendx + legendWidth)
             .attr('y', legendy + legendHeight + 20)
-            .style('font-size', '12px')
+            .style('font-size', '10px')
             .style('fill', 'grey')
         ;
         this.svg.append('text')
@@ -161,7 +162,7 @@ class MapChart {
             .attr('text-anchor', 'middle')
             .attr('x', legendx)
             .attr('y', legendy + legendHeight + 37)
-            .style('font-size', '12px')
+            .style('font-size', '10px')
             .style('fill', 'grey')
         ;
         this.svg.append('text')
@@ -170,7 +171,7 @@ class MapChart {
             .attr('text-anchor', 'middle')
             .attr('x', legendx + legendWidth)
             .attr('y', legendy + legendHeight + 37)
-            .style('font-size', '12px')
+            .style('font-size', '10px')
             .style('fill', 'grey')
         ;
 
@@ -234,6 +235,13 @@ class MapChart {
             thiss.barChart.updateSelectedStates(selectedStates);
             thiss.barChart.update();
         });
+        this.svg.append('text')
+            .text("Performance State Selector")
+            .style("font-family", 'Impact')
+            .style('font-size', '25px')
+            .style('fill', 'grey')
+            .attr('transform', 'translate(23, 290), rotate(-90)')
+        ;
         // d3.selectAll("path")
         //     .data(us.features)
         //     .enter()
@@ -252,6 +260,7 @@ class MapChart {
             .attr("pointer-events", "none");
 
         return Object.assign(this.svg.node(), {value: null});
+
     }
 
 
@@ -266,174 +275,5 @@ class MapChart {
         })
             .append()
         .style("stroke", "black")
-    }
-
-    update() {
-        // let us = d3.json("https://unpkg.com/us-atlas@1/us/10m.json");
-        // console.log(us);
-        // // let  topojson = require("topojson-client@3");
-        // // let d3 = require("d3@5");
-        //
-        // const path = d3.geoPath();
-        // let value = null;
-        //
-        // const g = this.svg.append("g")
-        //     .attr("transform", "translate(0,40)");
-        //
-        // this.svg.append("g")
-        //     .attr("fill", "#ccc")
-        //     .selectAll("path")
-        //     .data(topojson.feature(us, us.objects.states).features)
-        //     .enter().append("path")
-        //     .attr("d", path)
-        //     .on("click", d => {
-        //         const node = svg.node();
-        //         node.value = value = value === d.id ? null : d.id;
-        //         node.dispatchEvent(new CustomEvent("input"));
-        //         outline.attr("d", value ? path(d) : null);
-        //     });
-
-
-        // okay we have the states data with lets get the json data
-        // and add the funding from the states data to the json properties
-        // console.log('update')
-        // d3.json("data/us-states.json", function(json) {
-        //     console.log('json');
-        //
-        //     console.log(json)
-        // });
-
-        // alright lets add a map to the svg...
-
-
-        /**
-         * Renders the HTML content for tool tip
-         *
-         * @param tooltip_data information that needs to be populated in the tool tip
-         * @return text HTML content for toop tip
-         */
-        // tooltip_render (tooltip_data) {
-        //   let text = "<ul>";
-        //   tooltip_data.result.forEach((row)=>{
-        //     text += "<li class = " + this.chooseClass(row.party)+ ">" + row.nominee+":\t\t"+row.votecount+"("+row.percentage+"%)" + "</li>"
-        //   });
-        //
-        //   return text;
-        // }
-
-        /**
-         * Creates tiles and tool tip for each state, legend for encoding the
-         * color scale information.
-         *
-         * @param electionResult election data for the year selected
-         * @param colorScale global quantile scale based on the winning
-         * margin between republicans and democrats
-         */
-
-        // update (electionResult, colorScale){
-        //
-        //   //Calculates the maximum number of rows and columns
-        //   this.maxColumns = d3.max(electionResult, d => +d.Space) + 1;
-        //   this.maxRows = d3.max(electionResult, d => +d.Row) + 1;
-        //
-        //   // ******* TODO: PART IV *******
-        //   //Tansform the legend element to appear in the center and make a call to this element for it to display.
-        //
-        //   //Lay rectangles corresponding to each state according to the 'row' and 'column' information in the data.
-        //   this.svg.selectAll("*").remove();
-        //   const states = this.svg.selectAll("*").data(electionResult);
-        //
-        //   let xscale = d3.scaleLinear()
-        //       .domain([0, 12 ])
-        //       .range([20, this.svgWidth-100])
-        //   ;
-        //   var legendData = [-60, -50, -40, -30, -20, -10, 10, 20, 30, 40, 50, 60];
-        //   this.legendSvg.selectAll("rect")
-        //       .data(legendData)
-        //       .enter()
-        //       .append("rect")
-        //       .attr("x", (d, i) => xscale(i))
-        //       .attr("y", 10)
-        //       .attr("height", 10)
-        //       .attr("width", 70)
-        //       .style("fill", function(d) {
-        //           return colorScale(d)
-        //       })
-        //   this.legendSvg.selectAll('text').data(legendData)
-        //       .enter()
-        //       .append("text")
-        //       .text(function(d, i) {
-        //         if(i == 5) {
-        //           return d + " to 0";
-        //         }
-        //         if(i == 6) {
-        //           return "0 to " + d;
-        //         }
-        //         if(i > 6) {
-        //           return legendData[i-1] + " to " + legendData[i]
-        //         }
-        //         return d + " to " + legendData[i+1]
-        //       })
-        //       .attr("x", (d, i) => xscale(i)+35)
-        //       .attr("y", 35)
-        //       .attr("text-anchor", "middle")
-        //       .style("font-size", 12)
-        //
-        //   states
-        //       .enter()
-        //       .append("rect")
-        //       .attr("x", (d, i) => d.Space*60)
-        //       .attr("y", (d) => d.Row*60)
-        //       .attr("height", 60)
-        //       .attr("width", 60)
-        //       .attr('class', 'tile')
-        //       .style("fill", function(d) {
-        //           let iPerc = parseFloat(d.I_Percentage);
-        //           let dPerc = parseFloat(d.D_Percentage);
-        //           let rPerc = parseFloat(d.R_Percentage);
-        //           if((iPerc > dPerc) && (iPerc > rPerc))
-        //               return '#45AD6A'
-        //           return colorScale(d.RD_Difference)
-        //       })
-        //       .on('mouseover', (d) => {
-        //         this.tooltip.mouseover(d)
-        //       })
-        //       .on('mouseout', (d) => {
-        //         this.tooltip.mouseout(d)
-        //       })
-        //       .on('mousemove', (d) => {
-        //         this.tooltip.mousemove(d)
-        //       })
-        //
-        //
-        //   //Display the state abbreviation and number of electoral votes on each of these rectangles
-        //   states
-        //       .enter()
-        //       .append("text")
-        //       .text((d) => d.Abbreviation)
-        //       .style("text-anchor", "middle")
-        //       .attr("class", ".tilestext ")
-        //       .attr("x", (d, i) => d.Space*60 + 30)
-        //       .attr("y", (d) => d.Row*60 + 25)
-        //       .attr( "pointer-events", "none")
-        //   states
-        //       .enter()
-        //       .append("text")
-        //       .text((d) => d.Total_EV)
-        //       .style("text-anchor", "middle")
-        //       .attr("class", ".tilestext ")
-        //       .attr("x", (d, i) => d.Space*60 + 30)
-        //       .attr("y", (d) => d.Row*60 + 40)
-        //       .attr( "pointer-events", "none")
-        //   //Use global color scale to color code the tiles.
-        //
-        //   //HINT: Use .tile class to style your tiles;
-        //   // .tilestext to style the text corresponding to tiles
-        //
-        //   //Call the tool tip on hover over the tiles to display stateName, count of electoral votes
-        //   //then, vote percentage and number of votes won by each party.
-        //   //HINT: Use the .republican, .democrat and .independent classes to style your elements.
-        //
-        // };
     }
 }
