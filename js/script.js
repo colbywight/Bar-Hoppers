@@ -1,7 +1,3 @@
-// let tooltip = new Tooltip();
-//
-// let votePercentageChart = new PerformanceMap(tooltip);
-//
 let header = d3.select('#header')
     .select('text')
     .style('font-family', 'Arvo')
@@ -33,33 +29,12 @@ let attrColor = [
 ]
 let featMatrix = new FeatureMatrix();
 let barChart = new BarChart(attributes, attrColor);
-// let rankTable = new RankTable(attributes, barChart);
-//
-// let shiftChart = new SelectionChart();
-//
-// let electoralVoteChart = new FundingMap(shiftChart);
-// let mapChart = new MapChart();
+barChart.create();
 
-
-// Load the data corresponding to all the election years.
-// Pass this data and instances of all the charts that update on year
-// selection to yearChart's constructor.
-// d3.csv("data/yearwiseWinner.csv").then(electionWinners => {
-//   console.log(electionWinners);
-//   let yearChart = new MainMenu(electoralVoteChart, tileChart,
-//                                 votePercentageChart, electionWinners);
-//   yearChart.update();
-// });
-// let mapChart = new MapChart();
 
 d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
-  // mapChart.update();
-  //   barChart.update();
-  // let yearChart = new MainMenu(electoralVoteChart, tileChart,
-  //     votePercentageChart, electionWinners);
-  // yearChart.update();
+
 });
-// create a list of all of the selectable attributes
 
 d3.csv("data/masterTable.csv").then(masterTable => {
     for(let i = 0; i < masterTable.length; i++){
