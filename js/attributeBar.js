@@ -54,9 +54,10 @@ class AttributeBar {
      */
     buildBar(){
 
-        let barx = 150;
-        let bary = 180;
-        let barWidth = 1200;
+        let barx = 30;
+        let bary = 140;
+        // let barWidth = 1200;
+        let barWidth = 900;
         let barHeight = 10;
 
         // Create the svg:defs element and the main gradient definition.
@@ -115,7 +116,7 @@ class AttributeBar {
             // .attr('cx', d => console.log(d); return d.ranktot;)
             .attr('cx', function (d) {return scaler(d[0].ranktot);})
             .attr('cy', bary + 5)
-            .attr('r', '13')
+            .attr('r', '11')
             .style('fill', 'white')
             // .style('stroke', 'blue')
             .style('stroke', function (d) {
@@ -137,11 +138,11 @@ class AttributeBar {
                 // console.log(d3.select(this).style('fill') == 'white');
                 // console.log(d3.select(this).style('fill'));
                 // console.log(color)
-                if (d3.select(this).attr('r') == 13){
-                    d3.select(this).attr('r', 19)
+                if (d3.select(this).attr('r') == 11){
+                    d3.select(this).attr('r', 15)
                 }
                 else {
-                    d3.select(this).attr('r', 13)
+                    d3.select(this).attr('r', 11)
                 }
                 if (d3.select(this).style('fill') == 'white'){
                     d3.select(this).style('fill', color)
@@ -174,47 +175,47 @@ class AttributeBar {
                     }
                 }
             })
-            .style('font-size', '16px')
+            .style('font-size', '13px')
             // .style('font-family', "Bahnschrift")
             .style('font-family', "Lato")
             .attr("text-anchor", "start")
             .attr('transform', (d, i) => {
-                return 'translate( ' + (scaler(d[0].ranktot)) + ', 160), rotate(-45)';
+                return 'translate( ' + (scaler(d[0].ranktot)) + `, ${bary-17}), rotate(-45)`;
             })
         ;
 
         this.svg.append('text')
-            .style('font-size', '22px')
+            .style('font-size', '20px')
             .style('font-family', 'Arvo')
             .attr('x', barx)
             .attr('y', bary + 60)
             .text('Low Performance')
-            .attr('text-anchor', 'middle')
+            .attr('text-anchor', 'start')
         ;
         this.svg.append('text')
-            .style('font-size', '22px')
+            .style('font-size', '20px')
             .style('font-family', 'Arvo')
             .attr('x', barWidth + barx)
             .attr('y', bary + 60)
             .text('High Performance')
-            .attr('text-anchor', 'middle')
+            .attr('text-anchor', 'end')
         ;
 
         let barTitle = this.svg.append('text')
             .text("Attribute")
             .style("font-family", 'Arvo')
-            .style('font-size', '50px')
+            .style('font-size', '40px')
             .style('fill', 'black')
-            .attr('text-anchor', 'middle')
-            .attr('transform', 'translate(140, 70), rotate(0)')
+            .attr('text-anchor', 'start')
+            .attr('transform', `translate(${barx}, 30), rotate(0)`)
         ;
         let barTitle2 = this.svg.append('text')
             .text("Importance Selector")
             .style("font-family", 'Arvo')
-            .style('font-size', '25px')
+            .style('font-size', '20px')
             .style('fill', 'black')
-            .attr('text-anchor', 'middle')
-            .attr('transform', 'translate(140, 100), rotate(0)')
+            .attr('text-anchor', 'start')
+            .attr('transform', `translate(${barx}, 60), rotate(0)`)
     }
 
     updateSelectedStates(selectedStates){
