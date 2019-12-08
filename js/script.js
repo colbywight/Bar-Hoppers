@@ -2,13 +2,20 @@
 //
 // let votePercentageChart = new PerformanceMap(tooltip);
 //
-let header = d3.select('#header')
-    .select('text')
+let header = d3.select('#header-title')
+    // .select('text')
     .style('font-family', 'Arvo')
     .attr('font-size', '50px')
     .attr('x', 750)
     .style('text-anchor', 'middle')
     .attr('y', 75);
+let header1 = d3.select('#header-text')
+    // .select('text')
+    .style('font-family', 'Arvo')
+    .attr('font-size', '20px')
+    .attr('x', 750)
+    .style('text-anchor', 'middle')
+    .attr('y', 110);
 
 let barHeader = d3.select('#barcharttitle')
     .select('text')
