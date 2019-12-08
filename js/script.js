@@ -52,6 +52,8 @@ d3.csv("data/masterTable.csv").then(masterTable => {
     let totRankOfAttr = findOverallRankings(stateAttrRankList);
     //create mapchart
     let mapChart = new MapChart(masterTable, stateAttrRankList, barChart);
+    //create attribute overall ranking menu selector
+    let attributeBar = new AttributeBar(barChart, attrColor, totRankOfAttr);
     //get us state geo map
     d3.json("data/us-states.json")
         .then(function(us) {
