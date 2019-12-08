@@ -5,9 +5,6 @@
   <head>
     <meta charset="UTF-8">
     <title>Visualization - Project</title>
-<!--    <link rel="stylesheet" href="public/css/style.css"/>-->
-<!--    <script src="https://d3js.org/d3.v5.js"></script>-->
-<!--    <script src="https://d3js.org/d3.v3.min.js"></script>-->
 
     <script src="d3.js"></script>
     <script src="topojson.min.js"></script>
@@ -23,32 +20,13 @@
         <text id="header-title">What Affects Student Performance?</text>
         <text id="header-text">Select the states and attributes to see their importance to student performance</text>
     </svg>
-<!--    <h1 style="font-family: Arvo; font-size: 50px" align="center" >Student Performance Across the US</h1>-->
-<!--    <p class="info">Name: Marina Johnson; E-Mail: mkumi5995@gmail.com; A#: a02304894</p>-->
 
-<!--    <div id="year-chart" class="view">-->
-<!--    </div>-->
-<!--    <div style="float:left" id="selection">-->
-<!--      <div id="legend"></div>-->
     <div>
       <div style="width: 420px; float:left;"  id="map"></div>
-
-<!--    </div>-->
 
     <div style="width: 100px; float:left;" id = "attributeBar" class = "view">
     </div>
     </div>
-
-<!--    <div  id = "table" class = "view">-->
-<!--      <table id="ranktable" border="1">-->
-<!--        <thead>-->
-<!--        <tr>Feature Importance</tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-
-<!--        </tbody>-->
-<!--      </table>-->
-<!--    </div>-->
 
     <svg width="1500" height="75" id="barcharttitle">
       <text>Attribute Correlation Ranking By State</text>
@@ -58,7 +36,7 @@
         <g id="xAxis"></g>
         <g id="yAxis"></g>
         <g id="gridLines"></g></g>
-        <g id="gridLinesHorz"></g></g>
+        <g id="gridLinesVert"></g></g>
         <g id="bars"></g>
     </svg>
 
@@ -71,14 +49,12 @@
     </div>
 
     <script type="application/javascript" src="js/barChart.js"></script>
-    <script type="application/javascript" src="js/attrScatterplot.js"></script>
-    <script type="application/javascript" src="js/correlationBar.js"></script>
-    <script type="application/javascript" src="js/featureMatrix.js"></script>
+    <script type="application/javascript" src="scappedVisFeatures/attrScatterplot.js"></script>
+    <script type="application/javascript" src="scappedVisFeatures/correlationBar.js"></script>
+    <script type="application/javascript" src="scappedVisFeatures/featureMatrix.js"></script>
     <script type="application/javascript" src="js/mapChart.js"></script>
-    <script type="application/javascript" src="js/rankTable.js"></script>
+    <script type="application/javascript" src="scappedVisFeatures/rankTable.js"></script>
     <script type="application/javascript" src="js/attributeBar.js"></script>
-
-
     <script type="application/javascript" src="js/script.js"></script>
   </body>
 </html>

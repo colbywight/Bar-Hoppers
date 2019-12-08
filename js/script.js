@@ -1,3 +1,4 @@
+//Initialize header titles
 let header = d3.select('#header-title')
     .style('font-family', 'Arvo')
     .attr('font-size', '50px')
@@ -20,7 +21,9 @@ let barHeader = d3.select('#barcharttitle')
     .style('text-anchor', 'middle')
     .attr('y', 50);
 
+//initialize all selectable attributes
 let attributes = ["studentFinancialAssistance","averageHoursInSchoolDay","averageDailyAttendance","diversity","libraryVisitsPerCapita","giftedTalentedProgramsEnrollment","homlesStudentsPerEnrollment","pupilTeacherRatio","percentTeachersPhd","totalExpenditure"]
+//initialize color legend for each attribute, try to pick distinguishable colors
 let attrColor = [
     {attrname: "studentFinancialAssistance", attrcol: "red", attrlabel: "FINACIAL AID"},
     {attrname: "averageHoursInSchoolDay", attrcol: "orange", attrlabel: "HOURS PER DAY"},
@@ -33,26 +36,23 @@ let attrColor = [
     {attrname: "percentTeachersPhd", attrcol: "gray", attrlabel: "PHD TEACHERS"},
     {attrname: "totalExpenditure", attrcol: "magenta", attrlabel: "FUNDING"},
 ]
-let featMatrix = new FeatureMatrix();
+//create bar chart and initialize it, so user knows it exists
 let barChart = new BarChart(attributes, attrColor);
 barChart.create();
 
-
-d3.csv("data/2015StateScoresAndExpenses.csv").then(stateScores => {
-
-});
-
+//parse attribute csv data
 d3.csv("data/masterTable.csv").then(masterTable => {
     for(let i = 0; i < masterTable.length; i++){
         if (masterTable[i].state == ""){
             masterTable.splice(i, 1)
         }
     }
+    //find the ranking of each attribute per state and overall raning
     let stateAttrRankList = findRankings(masterTable, attributes);
     let totRankOfAttr = findOverallRankings(stateAttrRankList);
+    //create mapchart
     let mapChart = new MapChart(masterTable, stateAttrRankList, barChart);
-    let attributeBar = new AttributeBar(barChart, attrColor, totRankOfAttr);
-
+    //get us state geo map
     d3.json("data/us-states.json")
         .then(function(us) {
             mapChart.drawMap(us);
@@ -60,6 +60,11 @@ d3.csv("data/masterTable.csv").then(masterTable => {
 
 });
 
+/**
+ * find the correlation ranking of each attribute per state
+ * @param rawData - csv data parsed
+ * @param selectableAttr - list of all selectable attributes
+ */
 function findRankings(rawData, selectableAttr)
 {
     //get max performance to compare to
@@ -93,18 +98,27 @@ function findRankings(rawData, selectableAttr)
     return rankDataList;
 }
 
+/**
+ * Creates the overall ranking of each attribute across all states
+ * @param rankData - data calculated by the findRankings method
+ */
 function findOverallRankings(rankData){
+    //create dictionary with each key being an attribute
     var totRank = new Map()
     for(let i = 0; i < rankData.length; i++) {
+        //loop through each state then get the rank list of that state
         let rankList = rankData[i].rank;
+        //go through each attribute of that state
         for(let j = 0; j < rankList.length; j++){
             let attribute = rankList[j];
+            //add to dictionary if doesn't exist or add to it if it does
             if(!(totRank.has(attribute)))
                 totRank.set(attribute, j + 1);
             else
                 totRank.set(attribute, totRank.get(attribute) + (j + 1))
         }
     }
+    //add attrname and rank totals to a list to sort by ranktotals
     let sortAttr = [];
     for (const [key, value] of totRank.entries()) {
         sortAttr.push([{attrname: key, ranktot: value}]);
