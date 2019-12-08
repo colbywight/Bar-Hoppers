@@ -1,10 +1,16 @@
-let header = d3.select('#header')
-    .select('text')
+let header = d3.select('#header-title')
     .style('font-family', 'Arvo')
     .attr('font-size', '50px')
     .attr('x', 750)
     .style('text-anchor', 'middle')
     .attr('y', 75);
+
+let header1 = d3.select('#header-text')
+    .style('font-family', 'Arvo')
+    .attr('font-size', '20px')
+    .attr('x', 750)
+    .style('text-anchor', 'middle')
+    .attr('y', 110);
 
 let barHeader = d3.select('#barcharttitle')
     .select('text')
@@ -47,25 +53,12 @@ d3.csv("data/masterTable.csv").then(masterTable => {
     let mapChart = new MapChart(masterTable, stateAttrRankList, barChart);
     let attributeBar = new AttributeBar(barChart, attrColor, totRankOfAttr);
 
-
-    // mapChart.update();
-    // corrBars.update();
-    // spAttr.update();
     d3.json("data/us-states.json")
         .then(function(us) {
             mapChart.drawMap(us);
         });
 
 });
-
-// https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json
-
-// d3.json("https://unpkg.com/us-atlas@1/us/10m.json")
-//     .then(function(us) {
-//       console.log(us);
-//       mapChart.drawMap(us);
-//     });
-
 
 function findRankings(rawData, selectableAttr)
 {
