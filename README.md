@@ -8,7 +8,7 @@ The following screencast explains the visualization further:
 [![IMAGE ALT TEXT](thumbnail.jpg)](https://youtu.be/q3JQq7hzYv0)
 
 
-The projects website is with the screen cast can be found at [this link](https://colbywight.github.com)
+The projects website is with the screen cast can be found at [this link](https://colbywight.github.io)
 
 Interactive Features: 
 Click on states to add to x-axis of bar chart. 
